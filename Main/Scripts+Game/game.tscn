@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://cooeaxga4cjxs"]
+
+[ext_resource type="Script" path="res://Main/Scripts+Game/game.gd" id="1_dxy8t"]
+[ext_resource type="PackedScene" uid="uid://75djcwqjr3ia" path="res://Main/Levels/level_1.tscn" id="2_aymq2"]
+[ext_resource type="PackedScene" uid="uid://cgqs31q80h62k" path="res://Main/Menu/main_menu.tscn" id="3_fb7ia"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_dxy8t")
+
+[node name="Level1" parent="." instance=ExtResource("2_aymq2")]
+
+[node name="Menu" type="CanvasLayer" parent="."]
+
+[node name="Main Menu" parent="Menu" instance=ExtResource("3_fb7ia")]
+
+[node name="SyncedInstances" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Main/Player/player.tscn", "res://Art/2D/Bullet Hole/bullet_decal.tscn")
+spawn_path = NodePath("..")
+
+[node name="Spawn" type="Marker3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.998165, -0.0602286, 0.00621333, 0.0602297, 0.998185, 0, -0.00620205, 0.000374227, 0.999981, 39.0375, -7.54151, -36.2334)

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://clqcrbgocwg6j"]
+
+[ext_resource type="Script" path="res://Weapons/Scripts/weapon_base_script.gd" id="1_hvdpn"]
+
+[node name="WeaponBase" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0488747, 0.0105483, 0)
+script = ExtResource("1_hvdpn")
+
+[node name="WeaponMesh" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+
+[node name="WeaponShadow" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true

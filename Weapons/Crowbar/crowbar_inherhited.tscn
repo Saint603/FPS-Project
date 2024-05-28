@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdbwo4pv580gj"]
+
+[ext_resource type="PackedScene" uid="uid://b4oxuq7lf2nl5" path="res://Weapons/Crowbar/crowbar.glb" id="1_mvjug"]
+[ext_resource type="ArrayMesh" uid="uid://cqg2cr8qiwr7n" path="res://Weapons/Crowbar/crowbar_mesh.tres" id="2_htnsk"]
+
+[node name="Sketchfab_Scene" instance=ExtResource("1_mvjug")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 0, 0)
+
+[node name="Sketchfab_model" parent="." index="0"]
+transform = Transform3D(-0.0184475, -1.61273e-09, -7.04946e-17, 0, -8.06364e-10, 0.0184475, -1.61273e-09, 0.0184475, 8.06364e-10, 0, -2.92846e-07, 2.90027e-07)
+
+[node name="Collada visual scene group" parent="Sketchfab_model" index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+
+[node name="crowbar_low" parent="Sketchfab_model/Collada visual scene group" index="0"]
+transform = Transform3D(100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 0, 0, 0)
+
+[node name="defaultMaterial" parent="Sketchfab_model/Collada visual scene group/crowbar_low" index="0"]
+mesh = ExtResource("2_htnsk")

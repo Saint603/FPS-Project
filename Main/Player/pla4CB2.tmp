@@ -1,0 +1,293 @@
+[gd_scene load_steps=26 format=3 uid="uid://bvknror5yelqa"]
+
+[ext_resource type="Script" path="res://Main/Player/player.gd" id="1_g6aoh"]
+[ext_resource type="PackedScene" uid="uid://cric4w1wky27u" path="res://Main/Player/player_mesh_child.tscn" id="2_g4xjo"]
+[ext_resource type="PackedScene" uid="uid://clqcrbgocwg6j" path="res://Weapons/Scripts/weapon_base_scene.tscn" id="3_b17i1"]
+[ext_resource type="Script" path="res://Main/Player/Recoil.gd" id="3_udx53"]
+[ext_resource type="Resource" uid="uid://dg0v5u41ae3da" path="res://Weapons/test_pistol/pistol_resource.tres" id="4_xle7f"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/StateMachine.gd" id="5_c7wf7"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/IdleState.gd" id="6_6i3uv"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/WalkingState.gd" id="7_bf567"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/CrouchingJumpState.gd" id="7_yytuv"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/CrouchingIdleState.gd" id="8_80ll3"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/SprintingState.gd" id="8_h7cum"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/CrouchingState.gd" id="9_af0sa"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/JumpState.gd" id="10_cms08"]
+[ext_resource type="PackedScene" uid="uid://6so647i1q125" path="res://Main/Player/UI/Reticle/reticle.tscn" id="12_uosxr"]
+[ext_resource type="Script" path="res://Main/Player/UI/Debug Panel.gd" id="16_hwlp1"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4icvg"]
+radius = 1.3
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_g36lu"]
+noise_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_iuf46"]
+noise = SubResource("FastNoiseLite_g36lu")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsx4v"]
+radius = 1.3
+height = 2.6
+
+[sub_resource type="Animation" id="Animation_hlig3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerMesh/Quad Sphere:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera Rig:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera Rig:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(3.88431, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Camera Rig:position:z")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-1.34833, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("HeadCollider:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 3.58908, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cb4el"]
+resource_name = "crouch"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerMesh/Quad Sphere:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -1.10839, -1.30042)]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera Rig:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera Rig:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(3.88431, -0.25, 0, 0.25, 0, 2.61176, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Camera Rig:position:z")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-1.34833, -0.25, 0, 0.25, 0, -2.68909, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("HeadCollider:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 3.58908, 0), Vector3(0, 2.39573, -1.2704)]
+}
+
+[sub_resource type="Animation" id="Animation_47y4r"]
+resource_name = "shoot"
+
+[sub_resource type="Animation" id="Animation_8vuqm"]
+resource_name = "walking"
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4hjeb"]
+_data = {
+"RESET": SubResource("Animation_hlig3"),
+"crouch": SubResource("Animation_cb4el"),
+"shoot": SubResource("Animation_47y4r"),
+"walking": SubResource("Animation_8vuqm")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3lqex"]
+properties/0/path = NodePath(".:rotation")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Camera Rig:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("Camera Rig:position")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("ANIMATION_PLAYER", "CROUCH_SHAPE", "CAMERA_CONTROLLER", "CAMERA_RIG", "UI", "WEAPON_BASE", "STATE_MACHINE", "MULTIPLAYER_SYNC")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.269175, 0)
+collision_layer = 2
+floor_stop_on_slope = false
+script = ExtResource("1_g6aoh")
+ANIMATION_PLAYER = NodePath("AnimationPlayer")
+CROUCH_SHAPE = NodePath("CrouchCheck")
+CAMERA_CONTROLLER = NodePath("Camera Rig/Recoil/Camera3D")
+CAMERA_RIG = NodePath("Camera Rig")
+UI = NodePath("UI")
+WEAPON_BASE = NodePath("Camera Rig/Recoil/Camera3D/WeaponRig/WeaponBase")
+STATE_MACHINE = NodePath("StateMachine")
+MULTIPLAYER_SYNC = NodePath("MultiplayerSynchronizer")
+
+[node name="HeadCollider" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.58908, 0)
+shape = SubResource("SphereShape3D_4icvg")
+
+[node name="BodyCollider" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02427, 0)
+shape = SubResource("SphereShape3D_4icvg")
+
+[node name="PlayerMesh" parent="." instance=ExtResource("2_g4xjo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.54265, 0)
+
+[node name="Camera Rig" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.88431, -1.34833)
+
+[node name="Recoil" type="Node3D" parent="Camera Rig"]
+unique_name_in_owner = true
+script = ExtResource("3_udx53")
+recoil_amount = Vector3(0.3, 0.1, 0)
+snap_amount = 8.0
+speed = 4.0
+
+[node name="Camera3D" type="Camera3D" parent="Camera Rig/Recoil"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.119046, -4.76837e-07, 0)
+
+[node name="ReflectionProbe" type="ReflectionProbe" parent="Camera Rig/Recoil/Camera3D"]
+update_mode = 1
+
+[node name="WeaponRig" type="Node3D" parent="Camera Rig/Recoil/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.720176, -0.391942, -0.736076)
+
+[node name="WeaponBase" parent="Camera Rig/Recoil/Camera3D/WeaponRig" instance=ExtResource("3_b17i1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+WEAPON_TYPE = ExtResource("4_xle7f")
+sway_noise = SubResource("NoiseTexture2D_iuf46")
+
+[node name="CrouchCheck" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.852389, 0, 0, 0, 0.960809, 0, 4.61661, 0)
+shape = SubResource("CapsuleShape3D_wsx4v")
+debug_shape_custom_color = Color(1, 0.964706, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_4hjeb")
+}
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("CURRENT_STATE")]
+script = ExtResource("5_c7wf7")
+CURRENT_STATE = NodePath("IdlingState")
+
+[node name="CrouchingJumpState" type="Node" parent="StateMachine"]
+script = ExtResource("7_yytuv")
+
+[node name="IdlingState" type="Node" parent="StateMachine"]
+script = ExtResource("6_6i3uv")
+
+[node name="CrouchingIdleState" type="Node" parent="StateMachine"]
+script = ExtResource("8_80ll3")
+
+[node name="CrouchingState" type="Node" parent="StateMachine"]
+script = ExtResource("9_af0sa")
+
+[node name="WalkingState" type="Node" parent="StateMachine"]
+script = ExtResource("7_bf567")
+
+[node name="SprintingState" type="Node" parent="StateMachine"]
+script = ExtResource("8_h7cum")
+
+[node name="JumpingState" type="Node" parent="StateMachine"]
+script = ExtResource("10_cms08")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Reticle" parent="UI" node_paths=PackedStringArray("PLAYER_CONTROLLER") instance=ExtResource("12_uosxr")]
+layout_mode = 1
+PLAYER_CONTROLLER = NodePath("../..")
+
+[node name="DebugPanel" type="Panel" parent="UI"]
+layout_mode = 0
+offset_right = 486.0
+offset_bottom = 40.0
+script = ExtResource("16_hwlp1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/DebugPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_3lqex")
+
+[editable path="PlayerMesh"]

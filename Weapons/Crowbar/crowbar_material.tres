@@ -1,0 +1,29 @@
+[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://cutx0pgq8sl88"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_g27de"]
+load_path = "res://.godot/imported/crowbar_0.jpg-b8e4d5ae4680ef56f379df53fb3ba760.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xtpq8"]
+load_path = "res://.godot/imported/crowbar_1.png-eed1bba15355c2170d7280cc4051cf28.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_d4lko"]
+load_path = "res://.godot/imported/crowbar_1.png-eed1bba15355c2170d7280cc4051cf28.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0mkqb"]
+load_path = "res://.godot/imported/crowbar_2.png-f8b3c6649c642d937476489a65f2ce8a.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_j4k3a"]
+load_path = "res://.godot/imported/crowbar_1.png-eed1bba15355c2170d7280cc4051cf28.s3tc.ctex"
+
+[resource]
+resource_name = "DefaultMaterial"
+albedo_texture = SubResource("CompressedTexture2D_g27de")
+metallic = 1.0
+metallic_texture = SubResource("CompressedTexture2D_d4lko")
+metallic_texture_channel = 2
+roughness_texture = SubResource("CompressedTexture2D_j4k3a")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = SubResource("CompressedTexture2D_0mkqb")
+ao_enabled = true
+ao_texture = SubResource("CompressedTexture2D_xtpq8")

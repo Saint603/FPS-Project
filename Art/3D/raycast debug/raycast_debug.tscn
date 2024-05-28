@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cestwfx0f5syc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fok62"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 0.227451)
+
+[sub_resource type="SphereMesh" id="SphereMesh_8ajo2"]
+material = SubResource("StandardMaterial3D_fok62")
+radius = 0.1
+height = 0.2
+
+[node name="RaycastDebug" type="MeshInstance3D"]
+mesh = SubResource("SphereMesh_8ajo2")

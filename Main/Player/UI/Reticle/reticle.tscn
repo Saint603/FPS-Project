@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://6so647i1q125"]
+
+[ext_resource type="Script" path="res://Main/Player/UI/Reticle/Reticle.gd" id="1_lkqpk"]
+
+[node name="Reticle" type="CenterContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lkqpk")
+
+[node name="Top" type="Line2D" parent="."]
+unique_name_in_owner = true
+points = PackedVector2Array(0, -5, 0, -15)
+
+[node name="Bottom" type="Line2D" parent="."]
+unique_name_in_owner = true
+points = PackedVector2Array(0, 5, 0, 15)
+
+[node name="Left" type="Line2D" parent="."]
+unique_name_in_owner = true
+points = PackedVector2Array(-5, 0, -15, 0)
+
+[node name="Right" type="Line2D" parent="."]
+unique_name_in_owner = true
+points = PackedVector2Array(5, 0, 15, 0)
