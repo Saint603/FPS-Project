@@ -69,7 +69,7 @@ func _physics_process(delta):
 		
 func _process(_delta):
 	if mp_check(): return
-	Global.debug.add_property("State", STATE_MACHINE.CURRENT_STATE, 1)
+	#Global.debug.add_property("State", STATE_MACHINE.CURRENT_STATE, 1)
 	update_input()
 	move_and_slide()
 	
@@ -98,7 +98,9 @@ func attack():
 	var end = origin + CAMERA_CONTROLLER.project_ray_normal(screen_center) * 1000 ##1000 is range? maybe use this for inaccuracy
 	var query = PhysicsRayQueryParameters3D.create(origin, end) ##make ray case
 	query.collide_with_bodies = true
+	##Well this is confusing. Probably need to clean that up.. One is for camera, one is for mesh
 	%Recoil.add_recoil()
+	WEAPON_BASE.recoil.add_recoil()
 	var result = space_state.intersect_ray(query)
 	if result:
 		###var instance = raycast_debug.instantiate()
@@ -118,9 +120,8 @@ func attack():
 		instance.queue_free()
 
 func mp_check(): ##just a shorthand for a if statement that keeps popping up
-	if Global.game.mode == Global.game.modes.MULTI_PLAYER: 
-		if not is_multiplayer_authority(): return 1
-	return 0
+	if Global.game.mode == Global.game.modes.MULTI_PLAYER and not is_multiplayer_authority(): return 1
+	else: return 0
 
 @rpc("any_peer")
 func receive_damage(amount):

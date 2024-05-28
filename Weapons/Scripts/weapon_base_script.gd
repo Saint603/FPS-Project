@@ -20,6 +20,8 @@ class_name WeaponBase
 
 @onready var weapon_mesh : MeshInstance3D = %WeaponMesh
 @onready var weapon_shadow : MeshInstance3D = %WeaponShadow
+@onready var recoil = $Recoil
+
 
 var raycast_debug = preload("res://Art/3D/raycast debug/raycast_debug.tscn")
 var bullet_hole = preload("res://Art/2D/Bullet Hole/bullet_decal.tscn")
