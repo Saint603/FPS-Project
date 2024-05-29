@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Weapons" load_steps=3 format=3 uid="uid://dwmjcdqnrijn0"]
 
 [ext_resource type="ArrayMesh" uid="uid://cqg2cr8qiwr7n" path="res://Weapons/Crowbar/crowbar_mesh.tres" id="1_ols4p"]
-[ext_resource type="Script" path="res://Weapons/Scripts/weapons_resource.gd" id="2_vs6nc"]
+[ext_resource type="Script" path="res://Main/Player/weapons_resource.gd" id="2_vs6nc"]
 
 [resource]
 script = ExtResource("2_vs6nc")

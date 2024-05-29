@@ -1,8 +1,8 @@
 extends Node3D
 
-@export var recoil_amount : Vector3
-@export var snap_amount : float
-@export var speed : float 
+var recoil_amount
+var snap_amount
+var speed
 
 var current_rotation : Vector3
 var target_rotation : Vector3

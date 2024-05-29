@@ -3,7 +3,6 @@ extends State
 
 func enter(_previous_state):
 	if _previous_state.name != "CrouchingState" and _previous_state.name != "CrouchingIdleState":
-		print(_previous_state.name)
 		ANIMATION_PLAYER.play("crouch", -1.0, PLAYER.CROUCH_SPEED)
 	if _previous_state.name != "JumpingState":
 		PLAYER.velocity.y += PLAYER.JUMP_STRENGTH

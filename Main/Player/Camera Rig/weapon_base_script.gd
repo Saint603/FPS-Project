@@ -1,30 +1,16 @@
-@tool
 extends Node3D
 class_name WeaponBase
 
-@export var WEAPON_TYPE : Weapons:
-	set(value):
-		WEAPON_TYPE = value
-		if Engine.is_editor_hint():
-			load_weapon()
-
-@export var reset : bool = false:
-	set(value):
-		reset = value
-		if Engine.is_editor_hint():
-			reset = false
-			load_weapon()
-
-@export var sway_noise : NoiseTexture2D
-@export var sway_speed : float = 1.2
-
 @onready var weapon_mesh : MeshInstance3D = %WeaponMesh
 @onready var weapon_shadow : MeshInstance3D = %WeaponShadow
-@onready var recoil = $Recoil
-
+@onready var recoil = %CameraRecoil
+@onready var muzzle_flash = %MuzzleFlash
 
 var raycast_debug = preload("res://Art/3D/raycast debug/raycast_debug.tscn")
 var bullet_hole = preload("res://Art/2D/Bullet Hole/bullet_decal.tscn")
+
+var sway_noise
+var WEAPON_TYPE
 
 var mouse_movement : Vector2
 var random_sway_x
@@ -63,7 +49,6 @@ func load_weapon():
 	damage = WEAPON_TYPE.damage
 	
 func sway_and_bob_weapon(delta, isIdle : bool):
-	if Engine.is_editor_hint(): return 
 	time += delta
 	weapon_bob_amount.x = (sin(time * bob_speed) * hbob_amount)
 	weapon_bob_amount.y = abs(cos(time * bob_speed) * vbob_amount)
@@ -88,7 +73,6 @@ func sway_and_bob_weapon(delta, isIdle : bool):
 
 func get_sway_noise():
 	var player_position : Vector3 = Vector3.ZERO
-	if not Engine.is_editor_hint():
-		player_position = owner.global_position
+	player_position = owner.global_position
 	var noise_location = sway_noise.noise.get_noise_2d(player_position.x,player_position.y)
 	return noise_location

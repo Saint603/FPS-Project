@@ -5,6 +5,8 @@
 class_name Player
 extends CharacterBody3D
 
+signal weapon_fired
+
 @export var custom_scale : Vector3 = Vector3(1,1,1)
 @export_category("Health")
 @export var MAX_HEALTH : int = 100
@@ -20,23 +22,20 @@ extends CharacterBody3D
 @export var DECELERATION : float = 0.25
 @export var JUMP_STRENGTH : float = 5
 
-@export_category("Nodes")
-@export var ANIMATION_PLAYER : AnimationPlayer
-@export var CROUCH_SHAPE : ShapeCast3D
-@export var CAMERA_CONTROLLER : Camera3D
-@export var CAMERA_RIG : Node3D
-@export var UI : Control
-@export var WEAPON_BASE : WeaponBase
-@export var STATE_MACHINE : StateMachine
-@export var MULTIPLAYER_SYNC : MultiplayerSynchronizer
+@onready var ANIMATION_PLAYER : AnimationPlayer = %AnimationPlayer
+@onready var CROUCH_SHAPE : ShapeCast3D = %CrouchCheck
+@onready var UI : Control = %UI
+@onready var STATE_MACHINE : StateMachine = %StateMachine
+@onready var CAMERA_RIG : FPSCamera = %CameraRig
+@onready var CAMERA_CONTROLLER : Camera3D = %CameraRig.CAMERA
+@onready var WEAPON_BASE : WeaponBase = %CameraRig.WEAPON_BASE
 
-var current_weapon
+var current_weapon : Weapons
 var current_speed = DEFAULT_SPEED
 var current_health = MAX_HEALTH
 var bullet_hole = preload("res://Art/2D/Bullet Hole/bullet_decal.tscn")
 var bullet_hole_timeout : float = 1.5
 var isIdle : bool = false
-
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -52,27 +51,26 @@ func _ready():
 	CAMERA_CONTROLLER.current = true
 
 func _unhandled_input(event):
-	if !mp_check(): 
+	if mp_check(): return 
 	
-		if Input.is_action_just_pressed("exit"):
-			get_tree().quit()
+	if Input.is_action_just_pressed("exit"):
+		get_tree().quit()
 	
-		if event is InputEventMouseMotion:
-			update_camera(event)
-		
+	if event is InputEventMouseMotion:
+		update_camera(event)
+
 func _physics_process(delta):
 	if mp_check(): return
 	WEAPON_BASE.sway_and_bob_weapon(delta, isIdle) ##putting this function here instead of in _process removes issue with vsync/frame rate differences
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-		
+
 func _process(_delta):
 	if mp_check(): return
 	#Global.debug.add_property("State", STATE_MACHINE.CURRENT_STATE, 1)
 	update_input()
-	move_and_slide()
-	
+
 func update_camera(event):
 	rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
 	CAMERA_RIG.rotate_x(-event.relative.y * MOUSE_SENSITIVITY)
@@ -90,17 +88,18 @@ func update_input():
 		velocity.x = move_toward(velocity.x, 0.0, DECELERATION)
 		velocity.z = move_toward(velocity.z, 0.0, DECELERATION)
 	move_and_slide()
-	
+
 func attack():
+	if mp_check(): return
+	weapon_fired.emit()
+	##First we emit our weapon fire signal, then we do a raycast...I could probably move this into its own function but not tonight's focus
+	##Maybe move it into its own node within the camera rig.
 	var space_state = CAMERA_CONTROLLER.get_world_3d().direct_space_state
 	var screen_center = get_viewport().size / 2
 	var origin = CAMERA_CONTROLLER.project_ray_origin(screen_center)
 	var end = origin + CAMERA_CONTROLLER.project_ray_normal(screen_center) * 1000 ##1000 is range? maybe use this for inaccuracy
 	var query = PhysicsRayQueryParameters3D.create(origin, end) ##make ray case
 	query.collide_with_bodies = true
-	##Well this is confusing. Probably need to clean that up.. One is for camera, one is for mesh
-	%Recoil.add_recoil()
-	WEAPON_BASE.recoil.add_recoil()
 	var result = space_state.intersect_ray(query)
 	if result:
 		###var instance = raycast_debug.instantiate()
