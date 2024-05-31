@@ -1,8 +1,8 @@
 [gd_scene load_steps=22 format=3 uid="uid://7rhudeap4nhg"]
 
 [ext_resource type="Script" path="res://Old/Player1/player.gd" id="1_2poby"]
-[ext_resource type="PackedScene" uid="uid://cric4w1wky27u" path="res://Main/Player/player_mesh_child.tscn" id="2_yt2nd"]
-[ext_resource type="PackedScene" uid="uid://clqcrbgocwg6j" path="res://Weapons/Scripts/weapon_base_scene.tscn" id="3_8aawi"]
+[ext_resource type="PackedScene" uid="uid://cric4w1wky27u" path="res://Main/Player/Mesh/player_mesh_child.tscn" id="2_yt2nd"]
+[ext_resource type="PackedScene" path="res://Weapons/Scripts/weapon_base_scene.tscn" id="3_8aawi"]
 [ext_resource type="Resource" uid="uid://dwmjcdqnrijn0" path="res://Weapons/Crowbar/crowbar_resource.tres" id="4_wgwxi"]
 [ext_resource type="Theme" uid="uid://qtfcbt5bh1sc" path="res://Art/Themes/UI_theme.tres" id="5_khtdt"]
 [ext_resource type="Script" path="res://Main/Player/UI/Debug Panel.gd" id="6_3ddj7"]

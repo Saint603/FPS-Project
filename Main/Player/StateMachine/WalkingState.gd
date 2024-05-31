@@ -4,7 +4,6 @@ extends State
 
 func enter(_previous_state):
 	player_update_full(PLAYER.DEFAULT_SPEED, PLAYER.ACCELERATION, PLAYER.DECELERATION, false)
-	ANIMATION_PLAYER.play("walking", -1,1)
 
 func exit():
 	ANIMATION_PLAYER.speed_scale = 1.0

@@ -9,4 +9,4 @@ var mode : modes = modes.SINGLE_PLAYER
 func _ready():
 	Global.game = self
 	spawn = %Spawn
-"res://cs_office.tscn"
+	%MultiplayerSpawner.add_spawnable_scene(Global.PLAYER_SCENE.resource_path)

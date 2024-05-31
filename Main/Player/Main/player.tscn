@@ -1,18 +1,18 @@
-[gd_scene load_steps=22 format=3 uid="uid://bvknror5yelqa"]
+[gd_scene load_steps=21 format=3 uid="uid://bvknror5yelqa"]
 
-[ext_resource type="Script" path="res://Main/Player/player.gd" id="1_g6aoh"]
-[ext_resource type="PackedScene" uid="uid://cric4w1wky27u" path="res://Main/Player/player_mesh_child.tscn" id="2_g4xjo"]
-[ext_resource type="PackedScene" uid="uid://npe0v4dkktk8" path="res://Main/Player/Camera Rig/fps_camera_rig.tscn" id="3_oman3"]
-[ext_resource type="Script" path="res://Main/Player/StateMachine/StateMachine.gd" id="5_c7wf7"]
-[ext_resource type="Script" path="res://Main/Player/StateMachine/IdleState.gd" id="6_6i3uv"]
-[ext_resource type="Script" path="res://Main/Player/StateMachine/WalkingState.gd" id="7_bf567"]
-[ext_resource type="Script" path="res://Main/Player/StateMachine/CrouchingJumpState.gd" id="7_yytuv"]
-[ext_resource type="Script" path="res://Main/Player/StateMachine/CrouchingIdleState.gd" id="8_80ll3"]
-[ext_resource type="Script" path="res://Main/Player/StateMachine/SprintingState.gd" id="8_h7cum"]
-[ext_resource type="Script" path="res://Main/Player/StateMachine/CrouchingState.gd" id="9_af0sa"]
-[ext_resource type="Script" path="res://Main/Player/StateMachine/JumpState.gd" id="10_cms08"]
-[ext_resource type="PackedScene" uid="uid://6so647i1q125" path="res://Main/Player/UI/Reticle/reticle.tscn" id="12_uosxr"]
-[ext_resource type="Script" path="res://Main/Player/UI/Debug Panel.gd" id="16_hwlp1"]
+[ext_resource type="Script" path="res://Main/Player/Main/player.gd" id="1_4asse"]
+[ext_resource type="PackedScene" uid="uid://cric4w1wky27u" path="res://Main/Player/Mesh/player_mesh_child.tscn" id="2_y00rr"]
+[ext_resource type="PackedScene" uid="uid://npe0v4dkktk8" path="res://Main/Player/Camera Rig/Camera/fps_camera_rig.tscn" id="3_xxgq7"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/StateMachine.gd" id="4_casmj"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/CrouchingJumpState.gd" id="5_ltw7u"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/IdleState.gd" id="6_iu55g"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/CrouchingIdleState.gd" id="7_8qlbf"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/CrouchingState.gd" id="8_xxrp4"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/WalkingState.gd" id="9_e74a4"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/SprintingState.gd" id="10_a1s34"]
+[ext_resource type="Script" path="res://Main/Player/StateMachine/JumpState.gd" id="11_calc2"]
+[ext_resource type="PackedScene" uid="uid://6so647i1q125" path="res://Main/Player/UI/Reticle/reticle.tscn" id="12_e0ayw"]
+[ext_resource type="Script" path="res://Main/Player/UI/Debug Panel.gd" id="13_om0tq"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_4icvg"]
 radius = 1.3
@@ -65,7 +65,7 @@ tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(-1.34833, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(-0.537035, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
 tracks/4/type = "value"
@@ -125,7 +125,7 @@ tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(-1.34833, -0.25, 0, 0.25, 0, -2.68909, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(-0.537035, -0.25, 0, 0.25, 0, -1.83009, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 1)
 }
 tracks/4/type = "value"
@@ -141,20 +141,14 @@ tracks/4/keys = {
 "values": [Vector3(0, 3.58908, 0), Vector3(0, 2.39573, -1.2704)]
 }
 
-[sub_resource type="Animation" id="Animation_47y4r"]
-resource_name = "shoot"
-
-[sub_resource type="Animation" id="Animation_8vuqm"]
-resource_name = "walking"
-loop_mode = 1
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4hjeb"]
 _data = {
 "RESET": SubResource("Animation_hlig3"),
-"crouch": SubResource("Animation_cb4el"),
-"shoot": SubResource("Animation_47y4r"),
-"walking": SubResource("Animation_8vuqm")
+"crouch": SubResource("Animation_cb4el")
 }
+
+[sub_resource type="Theme" id="Theme_qvtje"]
+default_font_size = 36
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3lqex"]
 properties/0/path = NodePath(".:rotation")
@@ -180,7 +174,7 @@ properties/5/replication_mode = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.269175, 0)
 collision_layer = 2
 floor_stop_on_slope = false
-script = ExtResource("1_g6aoh")
+script = ExtResource("1_4asse")
 
 [node name="HeadCollider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.58908, 0)
@@ -190,11 +184,15 @@ shape = SubResource("SphereShape3D_4icvg")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02427, 0)
 shape = SubResource("SphereShape3D_4icvg")
 
-[node name="PlayerMesh" parent="." instance=ExtResource("2_g4xjo")]
+[node name="PlayerMesh" parent="." instance=ExtResource("2_y00rr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.54265, 0)
 
-[node name="CameraRig" parent="." instance=ExtResource("3_oman3")]
+[node name="CameraRig" parent="." instance=ExtResource("3_xxgq7")]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.88431, -0.537035)
+
+[node name="Camera3D" parent="CameraRig/CameraRecoil" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.119046, -4.76837e-07, 0)
 
 [node name="CrouchCheck" type="ShapeCast3D" parent="."]
 unique_name_in_owner = true
@@ -210,29 +208,29 @@ libraries = {
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("CURRENT_STATE")]
 unique_name_in_owner = true
-script = ExtResource("5_c7wf7")
+script = ExtResource("4_casmj")
 CURRENT_STATE = NodePath("IdlingState")
 
 [node name="CrouchingJumpState" type="Node" parent="StateMachine"]
-script = ExtResource("7_yytuv")
+script = ExtResource("5_ltw7u")
 
 [node name="IdlingState" type="Node" parent="StateMachine"]
-script = ExtResource("6_6i3uv")
+script = ExtResource("6_iu55g")
 
 [node name="CrouchingIdleState" type="Node" parent="StateMachine"]
-script = ExtResource("8_80ll3")
+script = ExtResource("7_8qlbf")
 
 [node name="CrouchingState" type="Node" parent="StateMachine"]
-script = ExtResource("9_af0sa")
+script = ExtResource("8_xxrp4")
 
 [node name="WalkingState" type="Node" parent="StateMachine"]
-script = ExtResource("7_bf567")
+script = ExtResource("9_e74a4")
 
 [node name="SprintingState" type="Node" parent="StateMachine"]
-script = ExtResource("8_h7cum")
+script = ExtResource("10_a1s34")
 
 [node name="JumpingState" type="Node" parent="StateMachine"]
-script = ExtResource("10_cms08")
+script = ExtResource("11_calc2")
 
 [node name="UI" type="Control" parent="."]
 unique_name_in_owner = true
@@ -243,8 +241,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+theme = SubResource("Theme_qvtje")
 
-[node name="Reticle" parent="UI" node_paths=PackedStringArray("PLAYER_CONTROLLER") instance=ExtResource("12_uosxr")]
+[node name="Reticle" parent="UI" node_paths=PackedStringArray("PLAYER_CONTROLLER") instance=ExtResource("12_e0ayw")]
 layout_mode = 1
 PLAYER_CONTROLLER = NodePath("../..")
 
@@ -252,7 +251,7 @@ PLAYER_CONTROLLER = NodePath("../..")
 layout_mode = 0
 offset_right = 486.0
 offset_bottom = 40.0
-script = ExtResource("16_hwlp1")
+script = ExtResource("13_om0tq")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/DebugPanel"]
 unique_name_in_owner = true
@@ -260,7 +259,23 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
+[node name="Ammo" type="Label" parent="UI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 87.0
+offset_top = -63.0
+offset_right = 143.0
+offset_bottom = -13.0
+grow_vertical = 0
+text = "7/7"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+unique_name_in_owner = true
 replication_config = SubResource("SceneReplicationConfig_3lqex")
 
 [connection signal="weapon_fired" from="." to="CameraRig" method="_on_player_weapon_fired"]

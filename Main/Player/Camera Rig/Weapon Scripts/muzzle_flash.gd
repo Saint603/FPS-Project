@@ -1,3 +1,4 @@
+class_name MuzzleFlash
 extends Node3D
 
 @onready var light : OmniLight3D = %OmniLight3D

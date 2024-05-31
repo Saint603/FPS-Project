@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Weapons" load_steps=3 format=3 uid="uid://dg0v5u41ae3da"]
 
 [ext_resource type="ArrayMesh" uid="uid://dqqgcf0s4ywe5" path="res://Weapons/test_pistol/pistol_mesh.tres" id="1_lps4t"]
-[ext_resource type="Script" path="res://Main/Player/weapons_resource.gd" id="1_wgbgo"]
+[ext_resource type="Script" path="res://Main/Player/Camera Rig/Weapon Scripts/weapons_resource.gd" id="1_wgbgo"]
 
 [resource]
 script = ExtResource("1_wgbgo")

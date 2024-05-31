@@ -1,3 +1,4 @@
+class_name CameraRecoil
 extends Node3D
 
 var recoil_amount

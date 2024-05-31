@@ -1,4 +1,4 @@
-##TODO add some rotation
+class_name WeaponRecoil
 extends Node3D
 
 var speed : float

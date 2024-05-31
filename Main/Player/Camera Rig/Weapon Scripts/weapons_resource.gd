@@ -3,6 +3,11 @@ extends Resource
 
 @export var name : StringName
 
+@export_category("Weapon Stats")
+@export var damage : float = 25
+@export var MAX_AMMO : int = 7
+@export var RELOAD_TIME : float = 2
+
 @export_category("Weapon Transform")
 @export var position : Vector3
 @export var rotation : Vector3
@@ -27,4 +32,3 @@ extends Resource
 @export_category("Visual Settings")
 @export var mesh : Mesh
 @export var shadow : bool
-@export var damage : int

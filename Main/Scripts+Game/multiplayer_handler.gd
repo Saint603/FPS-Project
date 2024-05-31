@@ -1,8 +1,6 @@
 extends Node
 class_name MultiplayerHandler
 
-var PLAYER_SCENE : PackedScene = preload("res://Main/Player/player.tscn")
-
 const PORT = 9999
 var enet_peer = ENetMultiplayerPeer.new()
 var address = "localhost"
@@ -29,7 +27,7 @@ func _join():
 func add_player(peer_id):
 	player_spawn = Global.game.spawn.global_position
 	var player : Player
-	player = PLAYER_SCENE.instantiate()
+	player = Global.PLAYER_SCENE.instantiate()
 	player.global_position = player_spawn
 	player.name = str(peer_id)
 	Global.game.add_child(player)

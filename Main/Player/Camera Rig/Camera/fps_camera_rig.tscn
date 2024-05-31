@@ -1,13 +1,17 @@
-[gd_scene load_steps=14 format=3 uid="uid://npe0v4dkktk8"]
+[gd_scene load_steps=18 format=3 uid="uid://npe0v4dkktk8"]
 
-[ext_resource type="Script" path="res://Main/Player/Camera Rig/fps_camera_rig.gd" id="1_b7u8s"]
+[ext_resource type="Script" path="res://Main/Player/Camera Rig/Camera/fps_camera_rig.gd" id="1_b7u8s"]
 [ext_resource type="Resource" uid="uid://dg0v5u41ae3da" path="res://Weapons/test_pistol/pistol_resource.tres" id="2_pc6ep"]
-[ext_resource type="Script" path="res://Main/Player/Camera Rig/camera_recoil.gd" id="2_pppxq"]
-[ext_resource type="Texture2D" uid="uid://cgyxoiautuek8" path="res://Main/Player/Camera Rig/fps_camera_noise_map.tres" id="3_jdaf7"]
-[ext_resource type="Script" path="res://Main/Player/Camera Rig/weapon_base_script.gd" id="3_uholh"]
-[ext_resource type="Script" path="res://Main/Player/Camera Rig/muzzle_flash.gd" id="5_3vu1c"]
-[ext_resource type="Script" path="res://Main/Player/Camera Rig/weapon_recoil.gd" id="6_5k8v7"]
+[ext_resource type="Texture2D" uid="uid://cgyxoiautuek8" path="res://Main/Player/Camera Rig/Camera/fps_camera_noise_map.tres" id="3_sargf"]
+[ext_resource type="PackedScene" uid="uid://dfl1ltlvrb2n" path="res://Art/2D/Bullet Hole/bullet_decal.tscn" id="4_bonsb"]
+[ext_resource type="Script" path="res://Main/Player/Camera Rig/Camera/camera_recoil.gd" id="5_3rmha"]
 [ext_resource type="ArrayMesh" uid="uid://dqqgcf0s4ywe5" path="res://Weapons/test_pistol/pistol_mesh.tres" id="6_8ijuv"]
+[ext_resource type="Script" path="res://Main/Player/Camera Rig/Weapon Scripts/weapon_sounds.gd" id="6_37s8u"]
+[ext_resource type="Script" path="res://Main/Player/Camera Rig/Camera/weapon_reload.gd" id="6_b4iga"]
+[ext_resource type="Script" path="res://Main/Player/Camera Rig/Weapon Scripts/weapon_ray.gd" id="7_bdphe"]
+[ext_resource type="Script" path="res://Main/Player/Camera Rig/Weapon Scripts/weapon_base_script.gd" id="8_cpc7a"]
+[ext_resource type="Script" path="res://Main/Player/Camera Rig/Weapon Scripts/weapon_recoil.gd" id="9_6saay"]
+[ext_resource type="Script" path="res://Main/Player/Camera Rig/Weapon Scripts/muzzle_flash.gd" id="10_nt46d"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8af0u"]
 angle_min = -181.5
@@ -49,11 +53,12 @@ size = Vector2(0.05, 0.05)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.88431, -1.34833)
 script = ExtResource("1_b7u8s")
 WEAPON_TYPE = ExtResource("2_pc6ep")
-sway_noise = ExtResource("3_jdaf7")
+sway_noise = ExtResource("3_sargf")
+bullet_hole = ExtResource("4_bonsb")
 
 [node name="CameraRecoil" type="Node3D" parent="."]
 unique_name_in_owner = true
-script = ExtResource("2_pppxq")
+script = ExtResource("5_3rmha")
 
 [node name="Camera3D" type="Camera3D" parent="CameraRecoil"]
 unique_name_in_owner = true
@@ -67,20 +72,31 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.720176, -0.391942, -0.73607
 
 [node name="WeaponBase" type="Node3D" parent="CameraRecoil/Camera3D/WeaponRig"]
 unique_name_in_owner = true
-script = ExtResource("3_uholh")
+script = ExtResource("8_cpc7a")
+
+[node name="WeaponReload" type="Node" parent="CameraRecoil/Camera3D/WeaponRig/WeaponBase"]
+unique_name_in_owner = true
+script = ExtResource("6_b4iga")
+
+[node name="WeaponSounds" type="Node" parent="CameraRecoil/Camera3D/WeaponRig/WeaponBase"]
+unique_name_in_owner = true
+script = ExtResource("6_37s8u")
+
+[node name="WeaponRay" type="Node" parent="CameraRecoil/Camera3D/WeaponRig/WeaponBase"]
+unique_name_in_owner = true
+script = ExtResource("7_bdphe")
 
 [node name="WeaponRecoil" type="Node3D" parent="CameraRecoil/Camera3D/WeaponRig/WeaponBase"]
 unique_name_in_owner = true
-script = ExtResource("6_5k8v7")
+script = ExtResource("9_6saay")
 
 [node name="MuzzleFlash" type="Node3D" parent="CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponRecoil"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0794424, -0.272011)
-script = ExtResource("5_3vu1c")
+script = ExtResource("10_nt46d")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponRecoil/MuzzleFlash"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0189046, -0.078528)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0667825, -0.350221)
 emitting = false
 lifetime = 0.03
 one_shot = true
@@ -106,3 +122,5 @@ skeleton = NodePath("../..")
 unique_name_in_owner = true
 mesh = ExtResource("6_8ijuv")
 skeleton = NodePath("../..")
+
+[connection signal="reload_finished" from="CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponReload" to="." method="_on_weapon_reload_reload_finished"]

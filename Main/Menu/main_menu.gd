@@ -29,8 +29,7 @@ func _on_address_text_submitted(_new_text):
 		%ErrorLabel.text = "Invalid IP!"
 
 func debug_start():
-	var PLAYER_SCENE : PackedScene = preload("res://Main/Player/player.tscn")
-	Global.game.add_child(PLAYER_SCENE.instantiate())
+	Global.game.add_child(Global.PLAYER_SCENE.instantiate())
 
 func address_check(text : String):
 	if text == "localhost" or text.is_valid_ip_address(): return 1

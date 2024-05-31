@@ -1,7 +1,3 @@
-#each player increases mouse sensitivity :(
-#fixed that but now he jitters non stop
-#FIXED SOME JITTERS BUT NOW ANIMATIONS GO TWICE AS FAST WHEN CLIENT JOINS. AY CARAMBA
-
 class_name Player
 extends CharacterBody3D
 
@@ -29,6 +25,7 @@ signal weapon_fired
 @onready var CAMERA_RIG : FPSCamera = %CameraRig
 @onready var CAMERA_CONTROLLER : Camera3D = %CameraRig.CAMERA
 @onready var WEAPON_BASE : WeaponBase = %CameraRig.WEAPON_BASE
+@onready var ammo : Label = %Ammo
 
 var current_weapon : Weapons
 var current_speed = DEFAULT_SPEED
@@ -47,8 +44,21 @@ func _ready():
 	if mp_check(): #if we're not the authority, delete all extra problematic nodes
 		UI.queue_free()
 		return
+	Global.player = self
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	CAMERA_CONTROLLER.current = true
+
+func _process(_delta):
+	if mp_check(): return
+	#Global.debug.add_property("State", STATE_MACHINE.CURRENT_STATE, 1)
+	update_input()
+
+func _physics_process(delta):
+	if mp_check(): return
+	WEAPON_BASE.sway_and_bob_weapon(delta, isIdle) ##putting this function here instead of in _process removes issue with vsync/frame rate differences
+	# Add the gravity.
+	if not is_on_floor():
+		velocity.y -= gravity * delta
 
 func _unhandled_input(event):
 	if mp_check(): return 
@@ -58,18 +68,6 @@ func _unhandled_input(event):
 	
 	if event is InputEventMouseMotion:
 		update_camera(event)
-
-func _physics_process(delta):
-	if mp_check(): return
-	WEAPON_BASE.sway_and_bob_weapon(delta, isIdle) ##putting this function here instead of in _process removes issue with vsync/frame rate differences
-	# Add the gravity.
-	if not is_on_floor():
-		velocity.y -= gravity * delta
-
-func _process(_delta):
-	if mp_check(): return
-	#Global.debug.add_property("State", STATE_MACHINE.CURRENT_STATE, 1)
-	update_input()
 
 func update_camera(event):
 	rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
@@ -92,31 +90,6 @@ func update_input():
 func attack():
 	if mp_check(): return
 	weapon_fired.emit()
-	##First we emit our weapon fire signal, then we do a raycast...I could probably move this into its own function but not tonight's focus
-	##Maybe move it into its own node within the camera rig.
-	var space_state = CAMERA_CONTROLLER.get_world_3d().direct_space_state
-	var screen_center = get_viewport().size / 2
-	var origin = CAMERA_CONTROLLER.project_ray_origin(screen_center)
-	var end = origin + CAMERA_CONTROLLER.project_ray_normal(screen_center) * 1000 ##1000 is range? maybe use this for inaccuracy
-	var query = PhysicsRayQueryParameters3D.create(origin, end) ##make ray case
-	query.collide_with_bodies = true
-	var result = space_state.intersect_ray(query)
-	if result:
-		###var instance = raycast_debug.instantiate()
-		var instance = bullet_hole.instantiate()
-		Global.game.synced_instances.add_child(instance)
-		instance.global_position = result.get("position")
-		if result.get("normal") != Vector3.UP and result.get("normal") != Vector3.DOWN:
-			instance.look_at(instance.global_transform.origin + result.get("normal"), Vector3.UP)
-		if result.get("normal") != Vector3.UP and result.get("normal") != Vector3.DOWN:
-			instance.rotate_object_local(Vector3(1,0,0), 90)
-		if result.get("collider").has_method("receive_damage"):
-				result.get("collider").receive_damage.rpc(WEAPON_BASE.damage)
-		await get_tree().create_timer(5).timeout
-		var fade = get_tree().create_tween()
-		fade.tween_property(instance, "modulate:a", 0, bullet_hole_timeout)
-		await get_tree().create_timer(bullet_hole_timeout).timeout
-		instance.queue_free()
 
 func mp_check(): ##just a shorthand for a if statement that keeps popping up
 	if Global.game.mode == Global.game.modes.MULTI_PLAYER and not is_multiplayer_authority(): return 1

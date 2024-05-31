@@ -20,7 +20,8 @@ transform = Transform3D(0.0923706, -0.670135, 0.736469, 0, 0.739631, 0.673012, -
 unique_name_in_owner = true
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Main/Player/player.tscn", "res://Art/2D/Bullet Hole/bullet_decal.tscn")
+unique_name_in_owner = true
+_spawnable_scenes = PackedStringArray("res://Art/2D/Bullet Hole/bullet_decal.tscn")
 spawn_path = NodePath("..")
 
 [node name="Spawn" type="Marker3D" parent="."]
