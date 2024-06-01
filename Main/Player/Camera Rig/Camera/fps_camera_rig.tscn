@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://npe0v4dkktk8"]
+[gd_scene load_steps=19 format=3 uid="uid://npe0v4dkktk8"]
 
 [ext_resource type="Script" path="res://Main/Player/Camera Rig/Camera/fps_camera_rig.gd" id="1_b7u8s"]
 [ext_resource type="Resource" uid="uid://dg0v5u41ae3da" path="res://Weapons/test_pistol/pistol_resource.tres" id="2_pc6ep"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://Main/Player/Camera Rig/Weapon Scripts/weapon_sounds.gd" id="6_37s8u"]
 [ext_resource type="Script" path="res://Main/Player/Camera Rig/Camera/weapon_reload.gd" id="6_b4iga"]
 [ext_resource type="Script" path="res://Main/Player/Camera Rig/Weapon Scripts/weapon_ray.gd" id="7_bdphe"]
+[ext_resource type="Script" path="res://Main/Player/Camera Rig/Camera/weapon_firing_logic.gd" id="7_epl7k"]
 [ext_resource type="Script" path="res://Main/Player/Camera Rig/Weapon Scripts/weapon_base_script.gd" id="8_cpc7a"]
 [ext_resource type="Script" path="res://Main/Player/Camera Rig/Weapon Scripts/weapon_recoil.gd" id="9_6saay"]
 [ext_resource type="Script" path="res://Main/Player/Camera Rig/Weapon Scripts/muzzle_flash.gd" id="10_nt46d"]
@@ -50,7 +51,7 @@ material = SubResource("StandardMaterial3D_hymkb")
 size = Vector2(0.05, 0.05)
 
 [node name="Camera Rig" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.88431, -1.34833)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.884, -0.537)
 script = ExtResource("1_b7u8s")
 WEAPON_TYPE = ExtResource("2_pc6ep")
 sway_noise = ExtResource("3_sargf")
@@ -73,6 +74,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.720176, -0.391942, -0.73607
 [node name="WeaponBase" type="Node3D" parent="CameraRecoil/Camera3D/WeaponRig"]
 unique_name_in_owner = true
 script = ExtResource("8_cpc7a")
+
+[node name="WeaponFiringLogic" type="Node" parent="CameraRecoil/Camera3D/WeaponRig/WeaponBase"]
+unique_name_in_owner = true
+script = ExtResource("7_epl7k")
 
 [node name="WeaponReload" type="Node" parent="CameraRecoil/Camera3D/WeaponRig/WeaponBase"]
 unique_name_in_owner = true
@@ -123,4 +128,4 @@ unique_name_in_owner = true
 mesh = ExtResource("6_8ijuv")
 skeleton = NodePath("../..")
 
-[connection signal="reload_finished" from="CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponReload" to="." method="_on_weapon_reload_reload_finished"]
+[connection signal="reload_finished" from="CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponReload" to="CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponFiringLogic" method="_on_weapon_reload_reload_finished"]

@@ -23,5 +23,3 @@ func add_sound(locationVector, sound, buffer: float = 0.0, volume: float = -10, 
 
 func _on_sound_finished(sound_player):
 	sound_player.queue_free()
-	
-	

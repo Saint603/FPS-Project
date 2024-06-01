@@ -1,3 +1,4 @@
+@tool
 extends Node3D
 class_name WeaponBase
 
@@ -17,36 +18,13 @@ var random_sway_x
 var random_sway_y
 var random_sway_amount : float
 var time : float = 0.0
-var idle_sway_adjustment
-var idle_sway_rotation_strength
+var idle_sway_adjustment : float
+var idle_sway_rotation_strength : float
 var weapon_bob_amount : Vector2 = Vector2.ZERO
 var damage : float
 var bob_speed : float
 var hbob_amount : float
 var vbob_amount : float
-
-
-func _ready():
-	await owner.ready
-	load_weapon()
-	
-#func _input(event):
-	#if event is InputEventMouseMotion:
-		#mouse_movement = event.relative
-
-func load_weapon():
-	weapon_mesh.mesh = WEAPON_TYPE.mesh
-	position = WEAPON_TYPE.position
-	rotation_degrees = WEAPON_TYPE.rotation
-	weapon_shadow.visible = WEAPON_TYPE.shadow
-	scale = Vector3(WEAPON_TYPE.scale,WEAPON_TYPE.scale,WEAPON_TYPE.scale)
-	idle_sway_adjustment = WEAPON_TYPE.idle_sway_adjustment
-	idle_sway_rotation_strength = WEAPON_TYPE.idle_sway_rotation_strength
-	random_sway_amount = WEAPON_TYPE.random_sway_amount
-	bob_speed = WEAPON_TYPE.bob_speed
-	hbob_amount = WEAPON_TYPE.bob_amount_x
-	vbob_amount = WEAPON_TYPE.bob_amount_y
-	damage = WEAPON_TYPE.damage
 	
 func sway_and_bob_weapon(delta, isIdle : bool):
 	time += delta
@@ -76,3 +54,4 @@ func get_sway_noise():
 	player_position = owner.global_position
 	var noise_location = sway_noise.noise.get_noise_2d(player_position.x,player_position.y)
 	return noise_location
+

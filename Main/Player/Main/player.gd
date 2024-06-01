@@ -42,6 +42,7 @@ func _enter_tree():
 func _ready():
 	scale = custom_scale
 	if mp_check(): #if we're not the authority, delete all extra problematic nodes
+		STATE_MACHINE.queue_free()
 		UI.queue_free()
 		return
 	Global.player = self
@@ -101,6 +102,7 @@ func receive_damage(amount):
 	if current_health <= 0:
 		current_health = 100
 		position = Vector3.ZERO
+	%HealthBar.value = (float(current_health) / float(MAX_HEALTH)) * 100
 	##health_changed.emit(current_health)
 
 

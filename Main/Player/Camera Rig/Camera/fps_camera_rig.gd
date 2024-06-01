@@ -1,3 +1,6 @@
+# This script is to consolidate the export variables in one spot for easy assignment within the editor
+# It's also supposed to function in editor mode but doesn't at the moment
+
 @tool
 class_name FPSCamera
 extends Node3D
@@ -7,16 +10,14 @@ extends Node3D
 	set(value):
 		WEAPON_TYPE = value
 		if Engine.is_editor_hint():
-			WEAPON_BASE = %WeaponBase
-			WEAPON_BASE.load_weapon()
+			load_weapon()
 
 @export var reset : bool = false:
 	set(value):
 		reset = value
 		if Engine.is_editor_hint():
 			reset = false
-			WEAPON_BASE = %WeaponBase
-			WEAPON_BASE.load_weapon()
+			load_weapon()
 
 @export_category("Camera Recoil")
 @export var camera_recoil_amount : Vector3 = Vector3(0.2,0,0)
@@ -47,12 +48,11 @@ extends Node3D
 @onready var WEAPON_RAY : WeaponRay = %WeaponRay
 @onready var WEAPON_SOUNDS : WeaponSounds = %WeaponSounds
 @onready var WEAPON_RELOAD : WeaponReload = %WeaponReload
+@onready var WEAPON_FIRING_LOGIC = %WeaponFiringLogic
 
-var reloading = false
-var MAX_AMMO
-var current_ammo
 
 func _ready():
+	load_weapon()
 	WEAPON_BASE.sway_noise = sway_noise
 	WEAPON_BASE.WEAPON_TYPE = WEAPON_TYPE
 	
@@ -71,25 +71,18 @@ func _ready():
 	WEAPON_RAY.bullet_hole = bullet_hole
 	WEAPON_RAY.bullet_hole_timeout = fade_time
 	
-	MAX_AMMO = WEAPON_TYPE.MAX_AMMO
-	current_ammo = MAX_AMMO
+	WEAPON_FIRING_LOGIC.MAX_AMMO = WEAPON_TYPE.MAX_AMMO
 
-func _on_player_weapon_fired():
-	if !reloading:
-		current_ammo -= 1
-		Global.player.ammo.set_text(str(current_ammo) + "/" + str(MAX_AMMO))
-		WEAPON_RECOIL.add_recoil()
-		CAMERA_RECOIL.add_recoil()
-		MUZZLE_FLASH.add_muzzle_flash()
-		WEAPON_RAY.fire_ray()
-		WEAPON_SOUNDS.add_sound(self.global_position, "")
-		if current_ammo <= 0:
-			reloading = true
-			WEAPON_RELOAD.reload()
-
-func _on_weapon_reload_reload_finished():
-	WEAPON_RECOIL.snap_amount = weapon_snap_speed_up
-	WEAPON_RECOIL.speed = weapon_snap_speed_down
-	current_ammo = MAX_AMMO
-	Global.player.ammo.set_text(str(current_ammo) + "/" + str(MAX_AMMO))
-	reloading = false
+func load_weapon():
+	%WeaponMesh.mesh = WEAPON_TYPE.mesh
+	%WeaponMesh.position = WEAPON_TYPE.position
+	%WeaponMesh.rotation_degrees = WEAPON_TYPE.rotation
+	%WeaponShadow.visible = WEAPON_TYPE.shadow
+	%WeaponMesh.scale = Vector3(WEAPON_TYPE.scale,WEAPON_TYPE.scale,WEAPON_TYPE.scale)
+	%WeaponBase.idle_sway_adjustment = WEAPON_TYPE.idle_sway_adjustment
+	%WeaponBase.idle_sway_rotation_strength = WEAPON_TYPE.idle_sway_rotation_strength
+	%WeaponBase.random_sway_amount = WEAPON_TYPE.random_sway_amount
+	%WeaponBase.bob_speed = WEAPON_TYPE.bob_speed
+	%WeaponBase.hbob_amount = WEAPON_TYPE.bob_amount_x
+	%WeaponBase.vbob_amount = WEAPON_TYPE.bob_amount_y
+	%WeaponBase.damage = WEAPON_TYPE.damage

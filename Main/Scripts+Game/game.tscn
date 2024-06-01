@@ -11,6 +11,7 @@ script = ExtResource("1_dxy8t")
 transform = Transform3D(0.0923706, -0.670135, 0.736469, 0, 0.739631, 0.673012, -0.995725, -0.0621665, 0.0683201, 35.3, 41.2497, 0)
 
 [node name="Level1" parent="." instance=ExtResource("2_aymq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.021224, 0)
 
 [node name="Menu" type="CanvasLayer" parent="."]
 

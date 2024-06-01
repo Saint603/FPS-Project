@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bvknror5yelqa"]
+[gd_scene load_steps=22 format=3 uid="uid://bvknror5yelqa"]
 
 [ext_resource type="Script" path="res://Main/Player/Main/player.gd" id="1_4asse"]
 [ext_resource type="PackedScene" uid="uid://cric4w1wky27u" path="res://Main/Player/Mesh/player_mesh_child.tscn" id="2_y00rr"]
@@ -150,6 +150,13 @@ _data = {
 [sub_resource type="Theme" id="Theme_qvtje"]
 default_font_size = 36
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w80xk"]
+bg_color = Color(0.0700053, 0.721729, 0.261646, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3lqex"]
 properties/0/path = NodePath(".:rotation")
 properties/0/spawn = true
@@ -169,6 +176,18 @@ properties/4/replication_mode = 2
 properties/5/path = NodePath("CameraRig/CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponRecoil/MuzzleFlash/GPUParticles3D:emitting")
 properties/5/spawn = true
 properties/5/replication_mode = 2
+properties/6/path = NodePath("PlayerMesh/Quad Sphere:position")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath("PlayerMesh/Quad Sphere:rotation")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath("PlayerMesh/Quad Sphere_001:position")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath("PlayerMesh/Quad Sphere_001:rotation")
+properties/9/spawn = true
+properties/9/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.269175, 0)
@@ -190,9 +209,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.54265, 0)
 [node name="CameraRig" parent="." instance=ExtResource("3_xxgq7")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.88431, -0.537035)
-
-[node name="Camera3D" parent="CameraRig/CameraRecoil" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.119046, -4.76837e-07, 0)
 
 [node name="CrouchCheck" type="ShapeCast3D" parent="."]
 unique_name_in_owner = true
@@ -243,6 +259,37 @@ grow_vertical = 2
 mouse_filter = 1
 theme = SubResource("Theme_qvtje")
 
+[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 47.0
+offset_top = -104.0
+offset_right = 363.0
+offset_bottom = -4.0
+grow_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Ammo" type="Label" parent="UI/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "7/7"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="UI/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_styles/fill = SubResource("StyleBoxFlat_w80xk")
+value = 100.0
+show_percentage = false
+
 [node name="Reticle" parent="UI" node_paths=PackedStringArray("PLAYER_CONTROLLER") instance=ExtResource("12_e0ayw")]
 layout_mode = 1
 PLAYER_CONTROLLER = NodePath("../..")
@@ -259,26 +306,11 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Ammo" type="Label" parent="UI"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 87.0
-offset_top = -63.0
-offset_right = 143.0
-offset_bottom = -13.0
-grow_vertical = 0
-text = "7/7"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 unique_name_in_owner = true
 replication_config = SubResource("SceneReplicationConfig_3lqex")
 
-[connection signal="weapon_fired" from="." to="CameraRig" method="_on_player_weapon_fired"]
+[connection signal="weapon_fired" from="." to="CameraRig/CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponFiringLogic" method="_on_player_weapon_fired"]
 
 [editable path="PlayerMesh"]
 [editable path="CameraRig"]
