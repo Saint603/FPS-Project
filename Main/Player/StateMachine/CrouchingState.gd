@@ -13,8 +13,6 @@ func update(_delta):
 		uncrouch()
 	if Input.is_action_just_pressed("jump") and PLAYER.is_on_floor():
 		transition.emit("CrouchingJumpState")
-	if Input.is_action_just_pressed("shoot"):
-		PLAYER.attack()
 
 func uncrouch():
 	if CROUCH_SHAPECAST.is_colliding() == false and Input.is_action_pressed("crouch") == false:

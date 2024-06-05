@@ -1,13 +1,14 @@
+class_name MainMenu
 extends Control
 @onready var game = get_node("/root/Game")
 
 var debug = false
+@onready var ERROR_LABEL = %ErrorLabel
 
 func _on_host_pressed():
 	if debug: debug_start()
 	else: MP._host()
 	hide()
-
 
 func _on_join_pressed():
 	if %Address.text == "": %Address.text = "localhost"
@@ -34,7 +35,6 @@ func debug_start():
 func address_check(text : String):
 	if text == "localhost" or text.is_valid_ip_address(): return 1
 	
-
 func _on_debug_mode_toggled(_toggled_on):
 	debug = !debug
 	%Join.disabled = !%Join.disabled

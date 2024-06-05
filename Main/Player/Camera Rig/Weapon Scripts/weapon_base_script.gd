@@ -1,4 +1,3 @@
-@tool
 extends Node3D
 class_name WeaponBase
 
@@ -10,21 +9,30 @@ class_name WeaponBase
 var raycast_debug = preload("res://Art/3D/raycast debug/raycast_debug.tscn")
 var bullet_hole = preload("res://Art/2D/Bullet Hole/bullet_decal.tscn")
 
-var sway_noise
-var WEAPON_TYPE
-
+var sway_noise : NoiseTexture2D
+var WEAPON_TYPE : Weapons
 var mouse_movement : Vector2
 var random_sway_x
 var random_sway_y
-var random_sway_amount : float
 var time : float = 0.0
-var idle_sway_adjustment : float
-var idle_sway_rotation_strength : float
 var weapon_bob_amount : Vector2 = Vector2.ZERO
-var damage : float
+var idle_sway_adjustment : float 
+var idle_sway_rotation_strength : float
+var random_sway_amount : float 
 var bob_speed : float
 var hbob_amount : float
 var vbob_amount : float
+var damage : float
+
+func _ready():
+	await owner.ready #dunno if this is needed any more
+	idle_sway_adjustment = WEAPON_TYPE.idle_sway_adjustment
+	idle_sway_rotation_strength = WEAPON_TYPE.idle_sway_rotation_strength
+	random_sway_amount = WEAPON_TYPE.random_sway_amount
+	bob_speed  = WEAPON_TYPE.bob_speed
+	hbob_amount = WEAPON_TYPE.bob_amount_x
+	vbob_amount  = WEAPON_TYPE.bob_amount_y
+	damage = WEAPON_TYPE.damage
 	
 func sway_and_bob_weapon(delta, isIdle : bool):
 	time += delta

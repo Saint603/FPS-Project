@@ -1,12 +1,17 @@
 class_name Weapons
 extends Resource
 
+enum FireModes {SINGLE, BURST, AUTO}
+
 @export var name : StringName
 
 @export_category("Weapon Stats")
+@export var FIRE_MODE : FireModes = FireModes.SINGLE
+@export var BURST_LENGTH : int = 3
 @export var damage : float = 25
 @export var MAX_AMMO : int = 7
 @export var RELOAD_TIME : float = 2
+@export var FIRE_RATE : float = 2 ##shots per second ( 1 / fire rate)
 
 @export_category("Weapon Transform")
 @export var position : Vector3

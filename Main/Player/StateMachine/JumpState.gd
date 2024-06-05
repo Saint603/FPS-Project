@@ -14,6 +14,4 @@ func update(_delta):
 		transition.emit("IdlingState")
 	if Input.is_action_just_pressed("crouch"):
 		transition.emit("CrouchingJumpState")
-	if Input.is_action_just_pressed("shoot"):
-		PLAYER.attack()
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bvknror5yelqa"]
+[gd_scene load_steps=23 format=3 uid="uid://bvknror5yelqa"]
 
 [ext_resource type="Script" path="res://Main/Player/Main/player.gd" id="1_4asse"]
 [ext_resource type="PackedScene" uid="uid://cric4w1wky27u" path="res://Main/Player/Mesh/player_mesh_child.tscn" id="2_y00rr"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://Main/Player/StateMachine/WalkingState.gd" id="9_e74a4"]
 [ext_resource type="Script" path="res://Main/Player/StateMachine/SprintingState.gd" id="10_a1s34"]
 [ext_resource type="Script" path="res://Main/Player/StateMachine/JumpState.gd" id="11_calc2"]
+[ext_resource type="PackedScene" uid="uid://jspxrkmg6wp0" path="res://Main/Menu/Pause/pause_menu.tscn" id="12_6fgqy"]
 [ext_resource type="PackedScene" uid="uid://6so647i1q125" path="res://Main/Player/UI/Reticle/reticle.tscn" id="12_e0ayw"]
 [ext_resource type="Script" path="res://Main/Player/UI/Debug Panel.gd" id="13_om0tq"]
 
@@ -259,6 +260,11 @@ grow_vertical = 2
 mouse_filter = 1
 theme = SubResource("Theme_qvtje")
 
+[node name="PauseMenu" parent="UI" instance=ExtResource("12_6fgqy")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
 [node name="HBoxContainer" type="HBoxContainer" parent="UI"]
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 1
@@ -274,6 +280,7 @@ theme_override_constants/separation = 20
 
 [node name="Ammo" type="Label" parent="UI/HBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 size_flags_horizontal = 0
 text = "7/7"
@@ -291,6 +298,7 @@ value = 100.0
 show_percentage = false
 
 [node name="Reticle" parent="UI" node_paths=PackedStringArray("PLAYER_CONTROLLER") instance=ExtResource("12_e0ayw")]
+unique_name_in_owner = true
 layout_mode = 1
 PLAYER_CONTROLLER = NodePath("../..")
 
@@ -310,7 +318,9 @@ offset_bottom = 40.0
 unique_name_in_owner = true
 replication_config = SubResource("SceneReplicationConfig_3lqex")
 
-[connection signal="weapon_fired" from="." to="CameraRig/CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponFiringLogic" method="_on_player_weapon_fired"]
+[connection signal="player_loaded" from="." to="CameraRig/CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponFiringLogic" method="_on_player_player_loaded"]
+[connection signal="weapon_trigger_down" from="." to="CameraRig/CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponFiringLogic" method="_on_player_weapon_trigger_down"]
+[connection signal="weapon_trigger_up" from="." to="CameraRig/CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponFiringLogic" method="_on_player_weapon_trigger_up"]
 
 [editable path="PlayerMesh"]
 [editable path="CameraRig"]

@@ -6,6 +6,12 @@
 [resource]
 script = ExtResource("1_wgbgo")
 name = &"pistol"
+FIRE_MODE = 2
+BURST_LENGTH = 3
+damage = 25.0
+MAX_AMMO = 20
+RELOAD_TIME = 2.0
+FIRE_RATE = 10.0
 position = Vector3(0, 0, 0)
 rotation = Vector3(0, 0, 0)
 scale = 1.0
@@ -23,4 +29,3 @@ idle_sway_rotation_strength = 30.0
 random_sway_amount = 1.0
 mesh = ExtResource("1_lps4t")
 shadow = false
-damage = 50

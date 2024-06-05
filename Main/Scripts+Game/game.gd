@@ -1,6 +1,7 @@
 extends Node
 class_name Game
 
+@onready var main_menu : MainMenu = %MainMenu
 @onready var synced_instances = %SyncedInstances
 var spawn
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Main/Scripts+Game/game.gd" id="1_dxy8t"]
 [ext_resource type="PackedScene" uid="uid://75djcwqjr3ia" path="res://Main/Levels/level_1.tscn" id="2_aymq2"]
-[ext_resource type="PackedScene" uid="uid://cgqs31q80h62k" path="res://Main/Menu/main_menu.tscn" id="3_fb7ia"]
+[ext_resource type="PackedScene" uid="uid://cgqs31q80h62k" path="res://Main/Menu/Main/main_menu.tscn" id="3_fb7ia"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_dxy8t")
@@ -15,7 +15,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.021224, 0)
 
 [node name="Menu" type="CanvasLayer" parent="."]
 
-[node name="Main Menu" parent="Menu" instance=ExtResource("3_fb7ia")]
+[node name="MainMenu" parent="Menu" instance=ExtResource("3_fb7ia")]
+unique_name_in_owner = true
 
 [node name="SyncedInstances" type="CanvasLayer" parent="."]
 unique_name_in_owner = true

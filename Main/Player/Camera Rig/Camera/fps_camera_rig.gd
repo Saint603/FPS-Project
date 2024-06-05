@@ -6,17 +6,17 @@ class_name FPSCamera
 extends Node3D
 
 #editor features broken ATM
-@export var WEAPON_TYPE : Weapons:
-	set(value):
-		WEAPON_TYPE = value
-		if Engine.is_editor_hint():
-			load_weapon()
-
 @export var reset : bool = false:
 	set(value):
 		reset = value
 		if Engine.is_editor_hint():
 			reset = false
+			load_weapon()
+
+@export var WEAPON_TYPE : Weapons:
+	set(value):
+		WEAPON_TYPE = value
+		if Engine.is_editor_hint():
 			load_weapon()
 
 @export_category("Camera Recoil")
@@ -56,8 +56,6 @@ func _ready():
 	WEAPON_BASE.sway_noise = sway_noise
 	WEAPON_BASE.WEAPON_TYPE = WEAPON_TYPE
 	
-	WEAPON_RELOAD.reload_time = WEAPON_TYPE.RELOAD_TIME
-	
 	CAMERA_RECOIL.recoil_amount = camera_recoil_amount
 	CAMERA_RECOIL.snap_amount = camera_snap_speed_up
 	CAMERA_RECOIL.speed = camera_snap_speed_down
@@ -70,8 +68,6 @@ func _ready():
 	
 	WEAPON_RAY.bullet_hole = bullet_hole
 	WEAPON_RAY.bullet_hole_timeout = fade_time
-	
-	WEAPON_FIRING_LOGIC.MAX_AMMO = WEAPON_TYPE.MAX_AMMO
 
 func load_weapon():
 	%WeaponMesh.mesh = WEAPON_TYPE.mesh
@@ -79,10 +75,3 @@ func load_weapon():
 	%WeaponMesh.rotation_degrees = WEAPON_TYPE.rotation
 	%WeaponShadow.visible = WEAPON_TYPE.shadow
 	%WeaponMesh.scale = Vector3(WEAPON_TYPE.scale,WEAPON_TYPE.scale,WEAPON_TYPE.scale)
-	%WeaponBase.idle_sway_adjustment = WEAPON_TYPE.idle_sway_adjustment
-	%WeaponBase.idle_sway_rotation_strength = WEAPON_TYPE.idle_sway_rotation_strength
-	%WeaponBase.random_sway_amount = WEAPON_TYPE.random_sway_amount
-	%WeaponBase.bob_speed = WEAPON_TYPE.bob_speed
-	%WeaponBase.hbob_amount = WEAPON_TYPE.bob_amount_x
-	%WeaponBase.vbob_amount = WEAPON_TYPE.bob_amount_y
-	%WeaponBase.damage = WEAPON_TYPE.damage

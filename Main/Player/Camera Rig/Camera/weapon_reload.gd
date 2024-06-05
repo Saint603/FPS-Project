@@ -4,6 +4,9 @@ extends Node
 signal reload_finished
 
 var reload_time
+ 
+func _ready():
+	reload_time = owner.WEAPON_TYPE.RELOAD_TIME
 
 func reload():
 	%WeaponRecoil.snap_amount = 1.2
