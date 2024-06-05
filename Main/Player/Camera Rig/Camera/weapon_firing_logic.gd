@@ -24,7 +24,7 @@ func fire():
 		%CameraRecoil.add_recoil()
 		%MuzzleFlash.add_muzzle_flash()
 		%WeaponRay.fire_ray()
-		%WeaponSounds.add_sound(owner.global_position, "")
+		%WeaponSounds.play_weapon_sound()
 		on_cooldown = true
 		if current_ammo <= 0:
 			reloading = true
@@ -51,8 +51,6 @@ func _on_player_weapon_trigger_up():
 	trigger_down = false
 
 func _on_weapon_reload_reload_finished():
-	%WeaponRecoil.snap_amount = owner.weapon_snap_speed_up
-	%WeaponRecoil.speed = owner.weapon_snap_speed_down
 	current_ammo = MAX_AMMO
 	Global.player.ammo.set_text(str(current_ammo) + "/" + str(MAX_AMMO))
 	reloading = false

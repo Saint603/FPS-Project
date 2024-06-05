@@ -81,11 +81,20 @@ func update_camera(event):
 	WEAPON_BASE.mouse_movement = event.relative
 
 func update_input():
-	#directional movement (W,A,S,D stuff)
 	var input_dir = Input.get_vector("strafe_left", "strafe_right", "forward", "backward")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	
 	if Input.is_action_just_pressed("menu"):
 		pause()
+	if Input.is_action_just_pressed("reload") and !isPaused:
+		CAMERA_RIG.WEAPON_RELOAD.reload()
+	if Input.is_action_just_pressed("attack") and !isPaused:
+		weapon_trigger_down.emit()
+	if Input.is_action_just_released("attack"): #dont check for pause here so that the trigger releases on pause automatically
+		weapon_trigger_up.emit()
+	
+	#directional movement (W,A,S,D stuff)
+	#if we're not paused, we take input as normal. If we pause, we move towards 0 (as if player let go of keyboard).
 	if direction and !isPaused:
 		velocity.x = lerp(velocity.x, direction.x * current_speed, ACCELERATION)
 		velocity.z = lerp(velocity.z, direction.z * current_speed, ACCELERATION)
@@ -93,10 +102,6 @@ func update_input():
 		velocity.x = move_toward(velocity.x, 0.0, DECELERATION)
 		velocity.z = move_toward(velocity.z, 0.0, DECELERATION)
 	move_and_slide()
-	if Input.is_action_just_pressed("attack") and !isPaused:
-		weapon_trigger_down.emit()
-	if Input.is_action_just_released("attack"):
-		weapon_trigger_up.emit()
 
 func pause():
 	isPaused = !isPaused
@@ -109,7 +114,7 @@ func pause():
 		%PauseMenu.visible = false
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		reticle.visible = true
-		
+
 func mp_check(): ##just a shorthand for a if statement that keeps popping up
 	if Global.game.mode == Global.game.modes.MULTI_PLAYER and not is_multiplayer_authority(): return 1
 	else: return 0

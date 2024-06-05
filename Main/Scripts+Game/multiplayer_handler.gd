@@ -8,7 +8,7 @@ const PORT = 9999
 
 var enet_peer = ENetMultiplayerPeer.new()
 var address = "localhost"
-var player_spawn : Vector3
+var player_spawns : Array[Vector3]
 var players = [] 
 
 func _host():
@@ -18,8 +18,6 @@ func _host():
 	multiplayer.multiplayer_peer = enet_peer
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect( _on_player_disconnected)
-	multiplayer.server_disconnected.connect(_on_server_disconnected)
-	
 	add_player(multiplayer.get_unique_id())
 	upnp_setup()
 
@@ -28,15 +26,17 @@ func _join(): # i didnt connect signals here, maybe do the ones in _ready that n
 	enet_peer.create_client(address, PORT)
 	multiplayer.multiplayer_peer = enet_peer
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	add_player(multiplayer.get_unique_id())
 	
 func add_player(peer_id):
-	player_spawn = Global.game.spawn.global_position
+	player_spawns = Global.current_level.spawns
 	var player : Player
 	player = Global.PLAYER_SCENE.instantiate()
-	player.global_position = player_spawn
 	player.name = str(peer_id)
 	players.append(player)
 	Global.game.add_child(player)
+	if !player_spawns: await Global.current_level.level_loaded
+	player.global_position = player_spawns.pick_random()
 
 func upnp_setup(): #Code from https://www.youtube.com/watch?v=n8D3vEx7NAE
 	var upnp = UPNP.new()
