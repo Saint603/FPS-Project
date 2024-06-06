@@ -4,6 +4,7 @@ extends CharacterBody3D
 signal weapon_trigger_down
 signal weapon_trigger_up
 signal player_loaded
+signal weapon_switched(new_weapon : Weapons)
 
 @export var custom_scale : Vector3 = Vector3(1,1,1)
 @export_category("Health")
@@ -19,6 +20,10 @@ signal player_loaded
 @export var ACCELERATION : float = 0.1
 @export var DECELERATION : float = 0.25
 @export var JUMP_STRENGTH : float = 5
+
+@export_category("Inventory")
+@export var inventory : Array[Weapons]
+@export_range(0, 1, 1) var equipped_item_index : int
 
 @onready var ANIMATION_PLAYER : AnimationPlayer = %AnimationPlayer
 @onready var CROUCH_SHAPE : ShapeCast3D = %CrouchCheck
@@ -38,7 +43,6 @@ var bullet_hole_timeout : float = 1.5
 var isIdle : bool = false
 var isPaused : bool = false
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity") # Get the gravity from the project settings to be synced with RigidBody nodes.
-
 #Editor Functions
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
@@ -49,6 +53,7 @@ func _ready():
 		STATE_MACHINE.queue_free()
 		UI.queue_free()
 		return
+	current_weapon = inventory[equipped_item_index]
 	Global.player = self
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	CAMERA_CONTROLLER.current = true

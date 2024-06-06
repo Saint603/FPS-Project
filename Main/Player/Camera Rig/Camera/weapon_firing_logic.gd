@@ -10,10 +10,10 @@ var trigger_down = false
 var BURST_LENGTH : float
 var burst_index : int = 1
 
-func _ready():
-	fire_rate = owner.WEAPON_TYPE.FIRE_RATE
-	MAX_AMMO = owner.WEAPON_TYPE.MAX_AMMO
-	BURST_LENGTH = owner.WEAPON_TYPE.BURST_LENGTH
+func load_weapon():
+	fire_rate = owner.current_weapon.FIRE_RATE
+	MAX_AMMO = owner.current_weapon.MAX_AMMO
+	BURST_LENGTH = owner.current_weapon.BURST_LENGTH
 	current_ammo = MAX_AMMO
 
 func fire():
@@ -31,9 +31,9 @@ func fire():
 			%WeaponReload.reload()
 		await get_tree().create_timer(1 / fire_rate).timeout
 		on_cooldown = false #I'd rather do this with signals i think
-		if owner.WEAPON_TYPE.FIRE_MODE == 2 and trigger_down == true: #0 = SINGLE, 1 = BURST, 2 = AUTO
+		if owner.current_weapon.FIRE_MODE == 2 and trigger_down == true: #0 = SINGLE, 1 = BURST, 2 = AUTO
 			fire()
-		if owner.WEAPON_TYPE.FIRE_MODE == 1 and trigger_down:
+		if owner.current_weapon.FIRE_MODE == 1 and trigger_down:
 			burst_index +=1
 			if burst_index < BURST_LENGTH:
 				fire()
@@ -43,7 +43,7 @@ func _on_player_player_loaded():
 
 func _on_player_weapon_trigger_down():
 	trigger_down = true
-	if owner.WEAPON_TYPE.FIRE_MODE == 1:
+	if owner.current_weapon.FIRE_MODE == 1:
 		burst_index = 0
 	fire()
 

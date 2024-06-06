@@ -5,8 +5,8 @@ signal reload_finished
 
 var reload_time
  
-func _ready():
-	reload_time = owner.WEAPON_TYPE.RELOAD_TIME
+func load_weapon():
+	reload_time = owner.current_weapon.RELOAD_TIME
 
 func reload():
 	var prev_snap = %WeaponRecoil.snap_amount

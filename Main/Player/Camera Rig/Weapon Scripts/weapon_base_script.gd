@@ -15,20 +15,20 @@ var bullet_hole = preload("res://Art/2D/Bullet Hole/bullet_decal.tscn")
 var sway_noise : NoiseTexture2D
 var WEAPON_TYPE : Weapons
 var mouse_movement : Vector2
-var random_sway_x
-var random_sway_y
+var random_sway_x : float = 0.0
+var random_sway_y : float = 0.0
 var time : float = 0.0
 var weapon_bob_amount : Vector2 = Vector2.ZERO
-var idle_sway_adjustment : float 
-var idle_sway_rotation_strength : float
-var random_sway_amount : float 
-var bob_speed : float
-var hbob_amount : float
-var vbob_amount : float
-var damage : float
+var idle_sway_adjustment : float = 0.0
+var idle_sway_rotation_strength : float = 0.0
+var random_sway_amount : float = 0.0 
+var bob_speed : float = 0.0
+var hbob_amount : float = 0.0
+var vbob_amount : float = 0.0
+var damage : int = 50
 
-func _ready():
-	await owner.ready #dunno if this is needed any more
+func load_weapon():
+	WEAPON_TYPE = owner.current_weapon
 	idle_sway_adjustment = WEAPON_TYPE.idle_sway_adjustment
 	idle_sway_rotation_strength = WEAPON_TYPE.idle_sway_rotation_strength
 	random_sway_amount = WEAPON_TYPE.random_sway_amount

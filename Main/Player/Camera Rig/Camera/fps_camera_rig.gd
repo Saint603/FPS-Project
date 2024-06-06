@@ -13,11 +13,11 @@ extends Node3D
 			reset = false
 			load_weapon()
 
-@export var WEAPON_TYPE : Weapons:
-	set(value):
-		WEAPON_TYPE = value
-		if Engine.is_editor_hint():
-			load_weapon()
+#@export var WEAPON_TYPE : Weapons:
+	#set(value):
+		#WEAPON_TYPE = value
+		#if Engine.is_editor_hint():
+			#load_weapon()
 
 @export_category("Camera Recoil")
 @export var camera_recoil_amount : Vector3 = Vector3(0.2,0,0)
@@ -50,16 +50,54 @@ extends Node3D
 @onready var WEAPON_RELOAD : WeaponReload = %WeaponReload
 @onready var WEAPON_FIRING_LOGIC = %WeaponFiringLogic
 
+var current_weapon
 
-func _ready():
+#func _ready():
+	#load_weapon()
+	#WEAPON_BASE.sway_noise = sway_noise
+	#
+	#CAMERA_RECOIL.recoil_amount = camera_recoil_amount
+	#CAMERA_RECOIL.snap_amount = camera_snap_speed_up
+	#CAMERA_RECOIL.speed = camera_snap_speed_down
+	#
+	##all of these need moved into the weapon resource eventually
+	#WEAPON_RECOIL.recoil_amount = weapon_recoil_amount
+	#WEAPON_RECOIL.snap_amount = weapon_snap_speed_up
+	#WEAPON_RECOIL.speed = weapon_snap_speed_down
+	#
+	#MUZZLE_FLASH.flash_time = flash_time
+	#
+	#WEAPON_RAY.bullet_hole = bullet_hole
+	#WEAPON_RAY.bullet_hole_timeout = fade_time
+
+func load_weapon():
+	current_weapon = owner.current_weapon
+	%WeaponMesh.mesh = current_weapon.mesh
+	%WeaponMesh.position = current_weapon.position
+	%WeaponMesh.rotation_degrees = current_weapon.rotation
+	%WeaponShadow.visible = current_weapon.shadow
+	%WeaponMesh.scale = Vector3(current_weapon.scale,current_weapon.scale,current_weapon.scale)
+	load_weapon_checker(self)
+
+func load_weapon_checker(object):
+	for i in object.get_children():
+		if i.has_method("load_weapon"):
+			i.load_weapon()
+		if i.get_children():
+			load_weapon_checker(i)
+
+func _on_player_weapon_switched(new_weapon):
+	load_weapon()
+
+func _on_player_player_loaded():
 	load_weapon()
 	WEAPON_BASE.sway_noise = sway_noise
-	WEAPON_BASE.WEAPON_TYPE = WEAPON_TYPE
 	
 	CAMERA_RECOIL.recoil_amount = camera_recoil_amount
 	CAMERA_RECOIL.snap_amount = camera_snap_speed_up
 	CAMERA_RECOIL.speed = camera_snap_speed_down
 	
+	#all of these need moved into the weapon resource eventually
 	WEAPON_RECOIL.recoil_amount = weapon_recoil_amount
 	WEAPON_RECOIL.snap_amount = weapon_snap_speed_up
 	WEAPON_RECOIL.speed = weapon_snap_speed_down
@@ -68,10 +106,3 @@ func _ready():
 	
 	WEAPON_RAY.bullet_hole = bullet_hole
 	WEAPON_RAY.bullet_hole_timeout = fade_time
-
-func load_weapon():
-	%WeaponMesh.mesh = WEAPON_TYPE.mesh
-	%WeaponMesh.position = WEAPON_TYPE.position
-	%WeaponMesh.rotation_degrees = WEAPON_TYPE.rotation
-	%WeaponShadow.visible = WEAPON_TYPE.shadow
-	%WeaponMesh.scale = Vector3(WEAPON_TYPE.scale,WEAPON_TYPE.scale,WEAPON_TYPE.scale)

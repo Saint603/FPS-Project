@@ -1,6 +1,7 @@
-[gd_scene load_steps=25 format=3 uid="uid://bvknror5yelqa"]
+[gd_scene load_steps=26 format=3 uid="uid://bvknror5yelqa"]
 
 [ext_resource type="Script" path="res://Main/Player/Main/player.gd" id="1_4asse"]
+[ext_resource type="Resource" uid="uid://dg0v5u41ae3da" path="res://Weapons/test_pistol/pistol_resource.tres" id="2_wx1qb"]
 [ext_resource type="PackedScene" uid="uid://cric4w1wky27u" path="res://Main/Player/Mesh/player_mesh_child.tscn" id="2_y00rr"]
 [ext_resource type="PackedScene" uid="uid://npe0v4dkktk8" path="res://Main/Player/Camera Rig/Camera/fps_camera_rig.tscn" id="3_xxgq7"]
 [ext_resource type="Script" path="res://Main/Player/StateMachine/StateMachine.gd" id="4_casmj"]
@@ -197,6 +198,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.269175, 0)
 collision_layer = 2
 floor_stop_on_slope = false
 script = ExtResource("1_4asse")
+inventory = Array[Resource("res://Main/Player/Camera Rig/Weapon Scripts/weapon_resource_base.gd")]([ExtResource("2_wx1qb"), ExtResource("4_o4mu7")])
 
 [node name="HeadCollider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.58908, 0)
@@ -212,7 +214,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.54265, 0)
 [node name="CameraRig" parent="." instance=ExtResource("3_xxgq7")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.88431, -0.537035)
-WEAPON_TYPE = ExtResource("4_o4mu7")
 
 [node name="WeaponShadow" parent="CameraRig/CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponRecoil" index="1"]
 visible = true
@@ -328,7 +329,9 @@ offset_bottom = 40.0
 unique_name_in_owner = true
 replication_config = SubResource("SceneReplicationConfig_3lqex")
 
+[connection signal="player_loaded" from="." to="CameraRig" method="_on_player_player_loaded"]
 [connection signal="player_loaded" from="." to="CameraRig/CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponFiringLogic" method="_on_player_player_loaded"]
+[connection signal="weapon_switched" from="." to="CameraRig" method="_on_player_weapon_switched"]
 [connection signal="weapon_trigger_down" from="." to="CameraRig/CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponFiringLogic" method="_on_player_weapon_trigger_down"]
 [connection signal="weapon_trigger_up" from="." to="CameraRig/CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponFiringLogic" method="_on_player_weapon_trigger_up"]
 
