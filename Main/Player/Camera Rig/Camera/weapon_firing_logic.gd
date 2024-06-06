@@ -19,7 +19,7 @@ func _ready():
 func fire():
 	if !reloading and !on_cooldown:
 		current_ammo -= 1
-		Global.player.ammo.set_text(str(current_ammo) + "/" + str(MAX_AMMO))
+		Global.player.AMMO_LABEL.set_text(str(current_ammo) + "/" + str(MAX_AMMO))
 		%WeaponRecoil.add_recoil()
 		%CameraRecoil.add_recoil()
 		%MuzzleFlash.add_muzzle_flash()
@@ -39,7 +39,7 @@ func fire():
 				fire()
 
 func _on_player_player_loaded():
-	Global.player.ammo.set_text(str(current_ammo) + "/" + str(MAX_AMMO))
+	Global.player.AMMO_LABEL.set_text(str(current_ammo) + "/" + str(MAX_AMMO))
 
 func _on_player_weapon_trigger_down():
 	trigger_down = true
@@ -52,5 +52,5 @@ func _on_player_weapon_trigger_up():
 
 func _on_weapon_reload_reload_finished():
 	current_ammo = MAX_AMMO
-	Global.player.ammo.set_text(str(current_ammo) + "/" + str(MAX_AMMO))
+	Global.player.AMMO_LABEL.set_text(str(current_ammo) + "/" + str(MAX_AMMO))
 	reloading = false

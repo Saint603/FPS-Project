@@ -1,7 +1,7 @@
 class_name Weapons
 extends Resource
 
-enum FireModes {SINGLE, BURST, AUTO}
+enum FireModes {SINGLE, BURST, AUTO, MELEE}
 
 @export var name : StringName
 

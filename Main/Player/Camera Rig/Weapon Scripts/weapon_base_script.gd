@@ -1,3 +1,6 @@
+#This script is responsible for loading weapon meshes and weapon variables
+#In addition, it also currently holds sway and bob funcs that are called from the player.
+#Hopefully it'll be cleaned up soon
 extends Node3D
 class_name WeaponBase
 
@@ -46,16 +49,16 @@ func sway_and_bob_weapon(delta, isIdle : bool):
 		random_sway_x = (sin(time * 1.5 + sway_random_adjusted) / random_sway_amount)
 		random_sway_y = (sin(time - sway_random_adjusted) / random_sway_amount) 
 	
-		position.x = lerp(position.x, WEAPON_TYPE.position.x - (mouse_movement.x * WEAPON_TYPE.sway_amount_position + random_sway_x) * delta, WEAPON_TYPE.sway_speed_position)
-		position.y = lerp(position.y, WEAPON_TYPE.position.y - (mouse_movement.y * WEAPON_TYPE.sway_amount_position + random_sway_y) * delta, WEAPON_TYPE.sway_speed_position)
-		rotation_degrees.x = lerp(rotation_degrees.x, WEAPON_TYPE.rotation.x - (mouse_movement.y * WEAPON_TYPE.sway_amount_rotation + (random_sway_x * idle_sway_rotation_strength)) * delta, WEAPON_TYPE.sway_speed_rotation)
-		rotation_degrees.y = lerp(rotation_degrees.y, WEAPON_TYPE.rotation.y + (mouse_movement.x * WEAPON_TYPE.sway_amount_rotation + (random_sway_y * idle_sway_rotation_strength)) * delta, WEAPON_TYPE.sway_speed_rotation)
+		position.x = lerp(position.x, (WEAPON_TYPE.position.x - (mouse_movement.x * WEAPON_TYPE.sway_amount_position + random_sway_x)) * delta, WEAPON_TYPE.sway_speed_position)
+		position.y = lerp(position.y, (WEAPON_TYPE.position.y - (mouse_movement.y * WEAPON_TYPE.sway_amount_position + random_sway_y)) * delta, WEAPON_TYPE.sway_speed_position)
+		rotation_degrees.x = lerp(rotation_degrees.x, (WEAPON_TYPE.rotation.x - (mouse_movement.y * WEAPON_TYPE.sway_amount_rotation + (random_sway_x * idle_sway_rotation_strength))) * delta, WEAPON_TYPE.sway_speed_rotation)
+		rotation_degrees.y = lerp(rotation_degrees.y, (WEAPON_TYPE.rotation.y + (mouse_movement.x * WEAPON_TYPE.sway_amount_rotation + (random_sway_y * idle_sway_rotation_strength))) * delta, WEAPON_TYPE.sway_speed_rotation)
 		
 	else:
-		position.x = lerp(position.x, WEAPON_TYPE.position.x - (mouse_movement.x * WEAPON_TYPE.sway_amount_position + weapon_bob_amount.x) * delta, WEAPON_TYPE.sway_speed_position)
-		position.y = lerp(position.y, WEAPON_TYPE.position.y - (mouse_movement.y * WEAPON_TYPE.sway_amount_position + weapon_bob_amount.y) * delta, WEAPON_TYPE.sway_speed_position)
-		rotation_degrees.x = lerp(rotation_degrees.x, WEAPON_TYPE.rotation.x - (mouse_movement.y * WEAPON_TYPE.sway_amount_rotation) * delta, WEAPON_TYPE.sway_speed_rotation)
-		rotation_degrees.y = lerp(rotation_degrees.y, WEAPON_TYPE.rotation.y + (mouse_movement.x * WEAPON_TYPE.sway_amount_rotation) * delta, WEAPON_TYPE.sway_speed_rotation)
+		position.x = lerp(position.x, (WEAPON_TYPE.position.x - (mouse_movement.x * WEAPON_TYPE.sway_amount_position + weapon_bob_amount.x)) * delta, WEAPON_TYPE.sway_speed_position)
+		position.y = lerp(position.y, (WEAPON_TYPE.position.y - (mouse_movement.y * WEAPON_TYPE.sway_amount_position + weapon_bob_amount.y)) * delta, WEAPON_TYPE.sway_speed_position)
+		rotation_degrees.x = lerp(rotation_degrees.x, (WEAPON_TYPE.rotation.x - (mouse_movement.y * WEAPON_TYPE.sway_amount_rotation)) * delta, WEAPON_TYPE.sway_speed_rotation)
+		rotation_degrees.y = lerp(rotation_degrees.y, (WEAPON_TYPE.rotation.y + (mouse_movement.x * WEAPON_TYPE.sway_amount_rotation)) * delta, WEAPON_TYPE.sway_speed_rotation)
 
 func get_sway_noise():
 	var player_position : Vector3 = Vector3.ZERO

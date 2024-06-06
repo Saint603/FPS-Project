@@ -27,8 +27,8 @@ signal player_loaded
 @onready var CAMERA_RIG : FPSCamera = %CameraRig
 @onready var CAMERA_CONTROLLER : Camera3D = %CameraRig.CAMERA
 @onready var WEAPON_BASE : WeaponBase = %CameraRig.WEAPON_BASE
-@onready var ammo : Label = %Ammo
-@onready var reticle : Reticle = %Reticle
+@onready var AMMO_LABEL : Label = %Ammo
+@onready var RETICLE : Reticle = %Reticle
 
 var current_weapon : Weapons
 var current_speed = DEFAULT_SPEED
@@ -37,15 +37,15 @@ var bullet_hole = preload("res://Art/2D/Bullet Hole/bullet_decal.tscn")
 var bullet_hole_timeout : float = 1.5
 var isIdle : bool = false
 var isPaused : bool = false
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity") # Get the gravity from the project settings to be synced with RigidBody nodes.
 
+#Editor Functions
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
 
 func _ready():
 	scale = custom_scale
-	if mp_check(): #if we're not the authority, delete all extra problematic nodes
+	if mp_check(): #If we're not the authority, delete all extra problematic nodes
 		STATE_MACHINE.queue_free()
 		UI.queue_free()
 		return
@@ -56,12 +56,12 @@ func _ready():
 
 func _process(_delta):
 	if mp_check(): return
-	#Global.debug.add_property("State", STATE_MACHINE.CURRENT_STATE, 1)
+	#Global.debug.add_property("State", STATE_MACHINE.CURRENT_STATE, 1) #Debug property example
 	update_input()
 
 func _physics_process(delta):
 	if mp_check(): return
-	WEAPON_BASE.sway_and_bob_weapon(delta, isIdle) ##putting this function here instead of in _process removes issue with vsync/frame rate differences
+	WEAPON_BASE.sway_and_bob_weapon(delta, isIdle) #Putting this function here instead of in _process removes issue with vsync/frame rate differences
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -74,6 +74,7 @@ func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		update_camera(event)
 
+#Custom Functions
 func update_camera(event):
 	rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
 	CAMERA_RIG.rotate_x(-event.relative.y * MOUSE_SENSITIVITY)
@@ -109,11 +110,11 @@ func pause():
 		weapon_trigger_up.emit()
 		%PauseMenu.visible = true
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		reticle.visible = false
+		RETICLE.visible = false
 	elif !isPaused:
 		%PauseMenu.visible = false
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		reticle.visible = true
+		RETICLE.visible = true
 
 func mp_check(): ##just a shorthand for a if statement that keeps popping up
 	if Global.game.mode == Global.game.modes.MULTI_PLAYER and not is_multiplayer_authority(): return 1
@@ -127,5 +128,8 @@ func receive_damage(amount):
 		position = Vector3.ZERO
 	%HealthBar.value = (float(current_health) / float(MAX_HEALTH)) * 100
 	##health_changed.emit(current_health)
+
+func switch_weapons(goto_weapon):
+	pass
 
 

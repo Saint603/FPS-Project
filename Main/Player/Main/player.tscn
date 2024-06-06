@@ -1,10 +1,12 @@
-[gd_scene load_steps=23 format=3 uid="uid://bvknror5yelqa"]
+[gd_scene load_steps=25 format=3 uid="uid://bvknror5yelqa"]
 
 [ext_resource type="Script" path="res://Main/Player/Main/player.gd" id="1_4asse"]
 [ext_resource type="PackedScene" uid="uid://cric4w1wky27u" path="res://Main/Player/Mesh/player_mesh_child.tscn" id="2_y00rr"]
 [ext_resource type="PackedScene" uid="uid://npe0v4dkktk8" path="res://Main/Player/Camera Rig/Camera/fps_camera_rig.tscn" id="3_xxgq7"]
 [ext_resource type="Script" path="res://Main/Player/StateMachine/StateMachine.gd" id="4_casmj"]
+[ext_resource type="Resource" uid="uid://dwmjcdqnrijn0" path="res://Weapons/Crowbar/crowbar_resource.tres" id="4_o4mu7"]
 [ext_resource type="Script" path="res://Main/Player/StateMachine/CrouchingJumpState.gd" id="5_ltw7u"]
+[ext_resource type="ArrayMesh" uid="uid://cqg2cr8qiwr7n" path="res://Weapons/Crowbar/crowbar_mesh.tres" id="5_t6nxw"]
 [ext_resource type="Script" path="res://Main/Player/StateMachine/IdleState.gd" id="6_iu55g"]
 [ext_resource type="Script" path="res://Main/Player/StateMachine/CrouchingIdleState.gd" id="7_8qlbf"]
 [ext_resource type="Script" path="res://Main/Player/StateMachine/CrouchingState.gd" id="8_xxrp4"]
@@ -210,6 +212,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.54265, 0)
 [node name="CameraRig" parent="." instance=ExtResource("3_xxgq7")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.88431, -0.537035)
+WEAPON_TYPE = ExtResource("4_o4mu7")
+
+[node name="WeaponShadow" parent="CameraRig/CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponRecoil" index="1"]
+visible = true
+
+[node name="WeaponMesh" parent="CameraRig/CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponRecoil" index="2"]
+transform = Transform3D(-4, -3.49691e-07, -1.52855e-14, 0, -1.74846e-07, 4, -3.49691e-07, 4, 1.74846e-07, 0, 0, 0)
+mesh = ExtResource("5_t6nxw")
 
 [node name="CrouchCheck" type="ShapeCast3D" parent="."]
 unique_name_in_owner = true

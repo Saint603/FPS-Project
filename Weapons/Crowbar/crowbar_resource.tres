@@ -1,13 +1,31 @@
 [gd_resource type="Resource" script_class="Weapons" load_steps=3 format=3 uid="uid://dwmjcdqnrijn0"]
 
 [ext_resource type="ArrayMesh" uid="uid://cqg2cr8qiwr7n" path="res://Weapons/Crowbar/crowbar_mesh.tres" id="1_ols4p"]
-[ext_resource type="Script" path="res://Main/Player/Camera Rig/Weapon Scripts/weapons_resource.gd" id="2_vs6nc"]
+[ext_resource type="Script" path="res://Main/Player/Camera Rig/Weapon Scripts/weapon_resource_base.gd" id="2_fiuxt"]
 
 [resource]
-script = ExtResource("2_vs6nc")
+script = ExtResource("2_fiuxt")
 name = &"Crowbar"
+FIRE_MODE = 3
+BURST_LENGTH = 3
+damage = 25.0
+MAX_AMMO = 7
+RELOAD_TIME = 2.0
+FIRE_RATE = 2.0
 position = Vector3(0, 0, 0)
 rotation = Vector3(-90, -180, 0)
 scale = 4.0
+bob_speed = 0.07
+bob_amount_x = 10.0
+bob_amount_y = 10.0
+sway_min = Vector2(-100, -100)
+sway_max = Vector2(100, 100)
+sway_speed_position = 0.01
+sway_speed_rotation = 0.01
+sway_amount_position = 0.25
+sway_amount_rotation = 50.0
+idle_sway_adjustment = 10.0
+idle_sway_rotation_strength = 300.0
+random_sway_amount = 5.0
 mesh = ExtResource("1_ols4p")
 shadow = true

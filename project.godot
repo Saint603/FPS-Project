@@ -28,6 +28,10 @@ window/size/viewport_height=1080
 window/size/mode=2
 window/vsync/vsync_mode=0
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/beidles_nodes/plugin.cfg")
+
 [input]
 
 forward={
