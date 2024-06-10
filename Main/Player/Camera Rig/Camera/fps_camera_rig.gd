@@ -52,24 +52,6 @@ extends Node3D
 
 var current_weapon
 
-#func _ready():
-	#load_weapon()
-	#WEAPON_BASE.sway_noise = sway_noise
-	#
-	#CAMERA_RECOIL.recoil_amount = camera_recoil_amount
-	#CAMERA_RECOIL.snap_amount = camera_snap_speed_up
-	#CAMERA_RECOIL.speed = camera_snap_speed_down
-	#
-	##all of these need moved into the weapon resource eventually
-	#WEAPON_RECOIL.recoil_amount = weapon_recoil_amount
-	#WEAPON_RECOIL.snap_amount = weapon_snap_speed_up
-	#WEAPON_RECOIL.speed = weapon_snap_speed_down
-	#
-	#MUZZLE_FLASH.flash_time = flash_time
-	#
-	#WEAPON_RAY.bullet_hole = bullet_hole
-	#WEAPON_RAY.bullet_hole_timeout = fade_time
-
 func load_weapon():
 	current_weapon = owner.current_weapon
 	%WeaponMesh.mesh = current_weapon.mesh
@@ -86,7 +68,7 @@ func load_weapon_checker(object):
 		if i.get_children():
 			load_weapon_checker(i)
 
-func _on_player_weapon_switched(new_weapon):
+func _on_player_weapon_switched():
 	load_weapon()
 
 func _on_player_player_loaded():

@@ -15,6 +15,7 @@ func load_weapon():
 	MAX_AMMO = owner.current_weapon.MAX_AMMO
 	BURST_LENGTH = owner.current_weapon.BURST_LENGTH
 	current_ammo = MAX_AMMO
+	Global.player.AMMO_LABEL.set_text(str(current_ammo) + "/" + str(MAX_AMMO))
 
 func fire():
 	if !reloading and !on_cooldown:

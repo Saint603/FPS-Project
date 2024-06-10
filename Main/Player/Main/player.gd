@@ -1,11 +1,11 @@
 class_name Player
 extends CharacterBody3D
-
+#Signals
 signal weapon_trigger_down
 signal weapon_trigger_up
 signal player_loaded
-signal weapon_switched(new_weapon : Weapons)
-
+signal weapon_switched
+#Exports, arranged by appearance in editor
 @export var custom_scale : Vector3 = Vector3(1,1,1)
 @export_category("Health")
 @export var MAX_HEALTH : int = 100
@@ -34,8 +34,8 @@ signal weapon_switched(new_weapon : Weapons)
 @onready var WEAPON_BASE : WeaponBase = %CameraRig.WEAPON_BASE
 @onready var AMMO_LABEL : Label = %Ammo
 @onready var RETICLE : Reticle = %Reticle
-
-var current_weapon : Weapons
+#Local variables
+var current_weapon : Weapons #current weapon is redundant now with inventory and inventory index.
 var current_speed = DEFAULT_SPEED
 var current_health = MAX_HEALTH
 var bullet_hole = preload("res://Art/2D/Bullet Hole/bullet_decal.tscn")
@@ -52,6 +52,7 @@ func _ready():
 	if mp_check(): #If we're not the authority, delete all extra problematic nodes
 		STATE_MACHINE.queue_free()
 		UI.queue_free()
+		player_loaded.emit()
 		return
 	current_weapon = inventory[equipped_item_index]
 	Global.player = self
@@ -70,6 +71,7 @@ func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
+	move_and_slide() #im wondering which process function this really should belong to
 
 func _unhandled_input(event):
 	if mp_check(): return 
@@ -90,8 +92,13 @@ func update_input():
 	var input_dir = Input.get_vector("strafe_left", "strafe_right", "forward", "backward")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
+	#key binds
 	if Input.is_action_just_pressed("menu"):
 		pause()
+	if Input.is_action_just_pressed("weapon_next") and !isPaused:
+		switch_weapon(true) #true is up false is down
+	if Input.is_action_just_pressed("weapon_prev")and !isPaused:
+		switch_weapon(false) #true is up false is down
 	if Input.is_action_just_pressed("reload") and !isPaused:
 		CAMERA_RIG.WEAPON_RELOAD.reload()
 	if Input.is_action_just_pressed("attack") and !isPaused:
@@ -107,7 +114,6 @@ func update_input():
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, DECELERATION)
 		velocity.z = move_toward(velocity.z, 0.0, DECELERATION)
-	move_and_slide()
 
 func pause():
 	isPaused = !isPaused
@@ -134,7 +140,16 @@ func receive_damage(amount):
 	%HealthBar.value = (float(current_health) / float(MAX_HEALTH)) * 100
 	##health_changed.emit(current_health)
 
-func switch_weapons(goto_weapon):
-	pass
-
-
+func switch_weapon(switch_up : bool): #True is up, false is down
+	if switch_up:
+		if equipped_item_index >= (inventory.size() - 1):
+			equipped_item_index =  0
+		else:
+			equipped_item_index += 1
+	else:
+		if equipped_item_index <= 0:
+			equipped_item_index =  inventory.size() - 1
+		else:
+			equipped_item_index -= 1
+	current_weapon = inventory[equipped_item_index]
+	weapon_switched.emit()
