@@ -42,28 +42,26 @@ var bullet_hole = preload("res://Art/2D/Bullet Hole/bullet_decal.tscn")
 var bullet_hole_timeout : float = 1.5
 var isIdle : bool = false
 var isPaused : bool = false
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity") # Get the gravity from the project settings to be synced with RigidBody nodes.
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity") #Get the gravity from the project settings to be synced with RigidBody nodes
+
 #Editor Functions
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
 
 func _ready():
 	scale = custom_scale
+	current_weapon = inventory[equipped_item_index]
 	if mp_check(): #If we're not the authority, delete all extra problematic nodes
 		STATE_MACHINE.queue_free()
 		UI.queue_free()
-		player_loaded.emit()
-		return
-	current_weapon = inventory[equipped_item_index]
-	Global.player = self
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	CAMERA_CONTROLLER.current = true
+	else: 
+		Global.player = self
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		CAMERA_CONTROLLER.current = true
 	player_loaded.emit()
 
 func _process(_delta):
-	if mp_check(): return
-	#Global.debug.add_property("State", STATE_MACHINE.CURRENT_STATE, 1) #Debug property example
-	update_input()
+	pass
 
 func _physics_process(delta):
 	if mp_check(): return
@@ -72,60 +70,6 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	move_and_slide() #im wondering which process function this really should belong to
-
-func _unhandled_input(event):
-	if mp_check(): return 
-	if Input.is_action_just_pressed("exit"):
-		get_tree().quit()
-	
-	if event is InputEventMouseMotion:
-		update_camera(event)
-
-#Custom Functions
-func update_camera(event):
-	rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
-	CAMERA_RIG.rotate_x(-event.relative.y * MOUSE_SENSITIVITY)
-	CAMERA_RIG.rotation.x = clamp(CAMERA_RIG.rotation.x, -PI/2, PI/2)
-	WEAPON_BASE.mouse_movement = event.relative
-
-func update_input():
-	var input_dir = Input.get_vector("strafe_left", "strafe_right", "forward", "backward")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
-	#key binds
-	if Input.is_action_just_pressed("menu"):
-		pause()
-	if Input.is_action_just_pressed("weapon_next") and !isPaused:
-		switch_weapon(true) #true is up false is down
-	if Input.is_action_just_pressed("weapon_prev")and !isPaused:
-		switch_weapon(false) #true is up false is down
-	if Input.is_action_just_pressed("reload") and !isPaused:
-		CAMERA_RIG.WEAPON_RELOAD.reload()
-	if Input.is_action_just_pressed("attack") and !isPaused:
-		weapon_trigger_down.emit()
-	if Input.is_action_just_released("attack"): #dont check for pause here so that the trigger releases on pause automatically
-		weapon_trigger_up.emit()
-	
-	#directional movement (W,A,S,D stuff)
-	#if we're not paused, we take input as normal. If we pause, we move towards 0 (as if player let go of keyboard).
-	if direction and !isPaused:
-		velocity.x = lerp(velocity.x, direction.x * current_speed, ACCELERATION)
-		velocity.z = lerp(velocity.z, direction.z * current_speed, ACCELERATION)
-	else:
-		velocity.x = move_toward(velocity.x, 0.0, DECELERATION)
-		velocity.z = move_toward(velocity.z, 0.0, DECELERATION)
-
-func pause():
-	isPaused = !isPaused
-	if isPaused:
-		weapon_trigger_up.emit()
-		%PauseMenu.visible = true
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		RETICLE.visible = false
-	elif !isPaused:
-		%PauseMenu.visible = false
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		RETICLE.visible = true
 
 func mp_check(): ##just a shorthand for a if statement that keeps popping up
 	if Global.game.mode == Global.game.modes.MULTI_PLAYER and not is_multiplayer_authority(): return 1
@@ -140,16 +84,3 @@ func receive_damage(amount):
 	%HealthBar.value = (float(current_health) / float(MAX_HEALTH)) * 100
 	##health_changed.emit(current_health)
 
-func switch_weapon(switch_up : bool): #True is up, false is down
-	if switch_up:
-		if equipped_item_index >= (inventory.size() - 1):
-			equipped_item_index =  0
-		else:
-			equipped_item_index += 1
-	else:
-		if equipped_item_index <= 0:
-			equipped_item_index =  inventory.size() - 1
-		else:
-			equipped_item_index -= 1
-	current_weapon = inventory[equipped_item_index]
-	weapon_switched.emit()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bvknror5yelqa"]
+[gd_scene load_steps=27 format=3 uid="uid://bvknror5yelqa"]
 
 [ext_resource type="Script" path="res://Main/Player/Main/player.gd" id="1_4asse"]
 [ext_resource type="Resource" uid="uid://dg0v5u41ae3da" path="res://Weapons/test_pistol/pistol_resource.tres" id="2_wx1qb"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://jspxrkmg6wp0" path="res://Main/Menu/Pause/pause_menu.tscn" id="12_6fgqy"]
 [ext_resource type="PackedScene" uid="uid://6so647i1q125" path="res://Main/Player/UI/Reticle/reticle.tscn" id="12_e0ayw"]
 [ext_resource type="Script" path="res://Main/Player/UI/Debug Panel.gd" id="13_om0tq"]
+[ext_resource type="Script" path="res://Main/Player/Main/player_input_handler.gd" id="15_7prtg"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_4icvg"]
 radius = 1.3
@@ -259,6 +260,9 @@ script = ExtResource("10_a1s34")
 
 [node name="JumpingState" type="Node" parent="StateMachine"]
 script = ExtResource("11_calc2")
+
+[node name="InputHandler" type="Node" parent="."]
+script = ExtResource("15_7prtg")
 
 [node name="UI" type="Control" parent="."]
 unique_name_in_owner = true
