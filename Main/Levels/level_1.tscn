@@ -1,7 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://75djcwqjr3ia"]
+[gd_scene load_steps=19 format=3 uid="uid://75djcwqjr3ia"]
 
 [ext_resource type="Script" path="res://Main/Levels/level_parent_script.gd" id="1_0s6n3"]
-[ext_resource type="Script" path="res://addons/beidles_nodes/spawns.gd" id="2_r52fp"]
+[ext_resource type="Script" path="res://addons/beidles_nodes/Node Scripts/spawns.gd" id="2_r52fp"]
+[ext_resource type="ArrayMesh" uid="uid://clt6p4nfepu44" path="res://addons/beidles_nodes/Node Assets/Item/item_mesh.tres" id="4_40lvq"]
+[ext_resource type="Script" path="res://addons/beidles_nodes/Node Scripts/item.gd" id="4_g107p"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_0dhk8"]
 
@@ -32,6 +34,12 @@ size = Vector3(19.702, 3.37698, 20.8148)
 
 [sub_resource type="BoxMesh" id="BoxMesh_hlpbj"]
 size = Vector3(20, 3, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_38p6o"]
+size = Vector3(1.5, 2.5, 1.5)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_eq7lq"]
+radius = 2.0
 
 [node name="Level1" type="Node3D" node_paths=PackedStringArray("spawns_group")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.409386, 0)
@@ -102,3 +110,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.6378, 3.24845, 13.5069)
 
 [node name="Spawn4" type="Marker3D" parent="Spawns"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.55035, 11.98, -8.55315)
+
+[node name="Item" type="StaticBody3D" parent="."]
+script = ExtResource("4_g107p")
+
+[node name="ItemCollision" type="CollisionShape3D" parent="Item"]
+shape = SubResource("BoxShape3D_38p6o")
+
+[node name="PickupArea" type="Area3D" parent="Item"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="PickupAreaCollision" type="CollisionShape3D" parent="Item/PickupArea"]
+shape = SubResource("SphereShape3D_eq7lq")
+
+[node name="ItemMesh" type="MeshInstance3D" parent="Item"]
+mesh = ExtResource("4_40lvq")

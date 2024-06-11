@@ -105,6 +105,11 @@ weapon_prev={
 ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="Default"
+3d_physics/layer_2="Player"
+
 [physics]
 
 common/physics_ticks_per_second=120
