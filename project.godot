@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 
 Global="*res://Main/Scripts+Game/Global.gd"
 MP="*res://Main/Scripts+Game/multiplayer_handler.gd"
+GF="*res://Main/Scripts+Game/global_funcs.gd"
 
 [display]
 
