@@ -37,7 +37,7 @@ extends Node3D
 @export var flash_time : float = 0.2
 
 @export_category("Weapon Ray Cast")
-@export var bullet_hole : PackedScene = load("res://Art/2D/Bullet Hole/bullet_decal.tscn")
+@export var bullet_hole : String = "res://Art/2D/Bullet Hole/bullet_decal.tscn"
 @export var fade_time : float = 1.2
 
 @onready var CAMERA : Camera3D = %Camera3D
