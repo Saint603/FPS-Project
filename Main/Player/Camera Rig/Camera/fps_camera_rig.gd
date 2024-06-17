@@ -13,12 +13,6 @@ extends Node3D
 			reset = false
 			load_weapon()
 
-#@export var WEAPON_TYPE : Weapons:
-	#set(value):
-		#WEAPON_TYPE = value
-		#if Engine.is_editor_hint():
-			#load_weapon()
-
 @export_category("Camera Recoil")
 @export var camera_recoil_amount : Vector3 = Vector3(0.2,0,0)
 @export_range(0,10,0.2) var camera_snap_speed_up : float = 5

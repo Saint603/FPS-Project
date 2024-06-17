@@ -9,9 +9,6 @@ class_name WeaponBase
 @onready var recoil = %CameraRecoil
 @onready var muzzle_flash = %MuzzleFlash
 
-#var raycast_debug = preload("res://Art/3D/raycast debug/raycast_debug.tscn")
-##var bullet_hole = preload("res://Art/2D/Bullet Hole/bullet_decal.tscn")
-
 var sway_noise : NoiseTexture2D
 var WEAPON_TYPE : Weapons
 var mouse_movement : Vector2

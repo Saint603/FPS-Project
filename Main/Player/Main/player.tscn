@@ -215,6 +215,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.54265, 0)
 [node name="CameraRig" parent="." instance=ExtResource("3_xxgq7")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.88431, -0.537035)
+bullet_hole = "res://Art/2D/Bullet Hole/bullet_decal.tscn"
 
 [node name="WeaponShadow" parent="CameraRig/CameraRecoil/Camera3D/WeaponRig/WeaponBase/WeaponRecoil" index="1"]
 visible = true
