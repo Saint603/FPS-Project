@@ -30,10 +30,6 @@ extends Node3D
 @export_category("Muzzle Flash")
 @export var flash_time : float = 0.2
 
-@export_category("Weapon Ray Cast")
-@export var bullet_hole : String = "res://Art/2D/Bullet Hole/bullet_decal.tscn"
-@export var fade_time : float = 1.2
-
 @onready var CAMERA : Camera3D = %Camera3D
 @onready var WEAPON_BASE : WeaponBase = %WeaponBase
 @onready var CAMERA_RECOIL : CameraRecoil = %CameraRecoil
@@ -79,6 +75,3 @@ func _on_player_player_loaded():
 	WEAPON_RECOIL.speed = weapon_snap_speed_down
 	
 	MUZZLE_FLASH.flash_time = flash_time
-	
-	WEAPON_RAY.bullet_hole = bullet_hole
-	WEAPON_RAY.bullet_hole_timeout = fade_time

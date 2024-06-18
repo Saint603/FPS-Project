@@ -5,7 +5,7 @@ extends Node
 @onready var WEAPON_BASE : WeaponBase = %WeaponBase
 
 var bullet_hole
-var bullet_hole_fade_time : float
+var bullet_hole_fade_time : float = 2.0
 var bullet_hole_timeout: float = 5.0
 
 func fire_ray():
@@ -22,4 +22,4 @@ func fire_ray():
 				result.get("collider").receive_damage.rpc(WEAPON_BASE.damage)
 
 func create_decal(result):
-	GF.add_decal_synced.rpc(bullet_hole, result.get("position"), result.get("normal"), bullet_hole_timeout, bullet_hole_fade_time)
+	GF.add_decal_synced.rpc("res://Art/2D/Bullet Hole/bullet_hole.png", result.get("position"), result.get("normal"), bullet_hole_timeout, bullet_hole_fade_time)

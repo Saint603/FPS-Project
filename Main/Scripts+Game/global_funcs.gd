@@ -43,8 +43,10 @@ func add_scene_remote(decal : PackedScene, position : Vector3, normal : Vector3,
 	fade.tween_property(instance, "modulate:a", 0, fadetime)
 	instance.queue_free()
 	
-func add_decal_local(decal, position : Vector3, normal : Vector3, timeout : float, fadetime : float):
-	var instance = load(decal).instantiate()
+func add_decal_local(texture, position : Vector3, normal : Vector3, timeout : float = 5, fadetime : float = 2, size : Vector3 = Vector3(0.1 ,0.1 ,0.1 )):
+	var instance = Decal.new()
+	instance.set_texture(Decal.TEXTURE_ALBEDO, load(texture))
+	instance.size = size
 	add_child(instance)
 	instance.global_position = position
 	if normal != Vector3.UP and normal != Vector3.DOWN:
@@ -53,12 +55,13 @@ func add_decal_local(decal, position : Vector3, normal : Vector3, timeout : floa
 		instance.rotate_object_local(Vector3(1,0,0), 90)
 	await get_tree().create_timer(timeout).timeout
 	var fade = get_tree().create_tween()
-	fade.tween_property(instance, "modulate:a", 0, fadetime)
+	fade.tween_property(instance, "albedo_mix", 0, fadetime)
+	await get_tree().create_timer(fadetime).timeout
 	instance.queue_free()
 
 @rpc ("any_peer","call_local","reliable")
-func add_decal_synced(decal, position : Vector3, normal : Vector3, timeout : float, fadetime : float):
-	add_decal_local(decal , position , normal , timeout, fadetime)
+func add_decal_synced(texture, position : Vector3, normal : Vector3, timeout : float, fadetime : float, size : Vector3 = Vector3(0.1 ,0.1 ,0.1 )):
+	add_decal_local(texture , position , normal , timeout, fadetime)
 
 func _on_sound_finished(sound_player):
 	sound_player.queue_free()
