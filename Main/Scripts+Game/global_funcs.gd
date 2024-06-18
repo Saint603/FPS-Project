@@ -30,18 +30,8 @@ func add_scene_local(packed_scene : PackedScene, location : Vector3):
 	scene.global_position = location
 	
 @rpc ("any_peer","call_remote","reliable")
-func add_scene_remote(decal : PackedScene, position : Vector3, normal : Vector3, timeout : float, fadetime : float):
-	var instance = decal.instantiate()
-	add_child(instance)
-	instance.global_position = position
-	if normal != Vector3.UP and normal != Vector3.DOWN:
-		instance.look_at(instance.global_transform.origin + normal, Vector3.UP)
-	if normal != Vector3.UP and normal != Vector3.DOWN:
-		instance.rotate_object_local(Vector3(1,0,0), 90)
-	await get_tree().create_timer(timeout).timeout
-	var fade = get_tree().create_tween()
-	fade.tween_property(instance, "modulate:a", 0, fadetime)
-	instance.queue_free()
+func add_scene_remote(packed_scene : PackedScene, location : Vector3):
+	add_scene_local(packed_scene, location)
 	
 func add_decal_local(texture, position : Vector3, normal : Vector3, timeout : float = 5, fadetime : float = 2, size : Vector3 = Vector3(0.1 ,0.1 ,0.1 )):
 	var instance = Decal.new()
