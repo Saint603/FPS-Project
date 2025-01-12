@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://75djcwqjr3ia"]
+[gd_scene load_steps=16 format=3 uid="uid://75djcwqjr3ia"]
 
 [ext_resource type="Script" path="res://Main/Levels/level_parent_script.gd" id="1_0s6n3"]
 [ext_resource type="Script" path="res://addons/beidles_nodes/Node Scripts/spawns.gd" id="2_r52fp"]
+[ext_resource type="PackedScene" uid="uid://cmklbt102flnf" path="res://Art/3D/Models/Plushie/godot_plush V2.glb" id="3_8vqme"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_0dhk8"]
 
@@ -102,3 +103,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.6378, 3.24845, 13.5069)
 
 [node name="Spawn4" type="Marker3D" parent="Spawns"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.55035, 11.98, -8.55315)
+
+[node name="godot_plush V2" parent="." instance=ExtResource("3_8vqme")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -3.33427, 0.131399, -9.35778)
